@@ -45,6 +45,24 @@ const userSchema = new mongoose.Schema({
     },
   },
 
+  jwtToken: {
+    type: String
+  },
+
+  passwordToken: {
+    email: {
+      type: String,
+      default: null,
+    }
+  },
+
+  pverified: {
+    email: {
+      type: Boolean,
+      default: false,
+    }
+  },
+
   lastLogin: {
     type: Date,
     required: true,
@@ -70,4 +88,3 @@ const userSchema = new mongoose.Schema({
 const userModel = mongoose.model("User", userSchema);
 
 export default userModel;
-T
