@@ -115,20 +115,20 @@ const loginUser = async(req,res) => {
 
 const verifyJwtToken = async(req,res) => {
     try {
-        let JwtToken = req.headers["auth-token"];
-        if(!JwtToken){
+        let JWTToken = req.headers["auth-token"];
+        if(!JWTToken){
             console.log("JWT Token is missing");
             return res.status(401).json({error: "JWT Token is missing"});
         }
 
-        let decoded = jwt.verify(JwtToken, process.env.JWT_SECRET);
+        let decoded = jwt.verify(JWTToken, process.env.JWT_SECRET);
 
         const user = await userModel.findById(decoded.payload.user_id)
         if(!user){
                 console.log("User not found !");
                 return res.status(401).json({error: "User not found!"});
         }
-        if(user.jwtToken != JwtToken){
+        if(user.jwtToken != JWTToken){
             console.log("Invalid Token !");
             return res.status(401).json({message: "Invalid Token !"})
         }
