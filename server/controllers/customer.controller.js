@@ -34,16 +34,16 @@ const registerCustomer = async(req,res) => {
         let emailtoken = token();
         await userModel.findByIdAndUpdate(userId, {"verifyToken.email": emailtoken})
 
-        // sendEmail({
-        //     to: existingUser.email,
-        //     subject : 'Email Confirmation',
-        //     body: `
-        //     Hello ${req.body.firstname}<br>
-        //     Please click this <a href = "http://localhost:6040/api/auth/verify/email/${emailtoken}">Click Me</a>
-        //     <br>
-        //     Thankyou :)
-        //     `
-        // });
+        sendEmail({
+            to: existingUser.email,
+            subject : 'Email Confirmation',
+            body: `
+            Hello ${req.body.firstname}<br>
+            Please click this <a href = "http://localhost:6040/api/auth/verify/email/${emailtoken}">Click Me</a>
+            <br>
+            Thankyou :)
+            `
+        });
 
 
         console.log("Customer Registered successfully. Email Verification required !");
@@ -105,7 +105,7 @@ const loginUser = async(req,res) => {
         await user.save();
 
         console.log("User login successfull", user);
-        return res.status(200).json({message: "User login successfull", user});
+        return res.status(200).json({success: true, message: "User login successfull", data: user});
 
     } catch (error) {
           console.log(error);
@@ -189,16 +189,16 @@ const passwordResetRequest = async(req,res) => {
         user.passwordTokenVerified.email = false;
         await user.save();
 
-        // sendEmail({
-    //   to: user.email,
-    //   subject: "Password Reset",
-    //   body: `
-    //     Click here to reset password:
-    //     <a href="http://localhost:6040/api/auth/verify/passwordRequest/${passwordToken}">
-    //       Reset Password
-    //     </a>
-    //   `
-    // });
+        sendEmail({
+      to: user.email,
+      subject: "Password Reset",
+      body: `
+        Click here to reset password:
+        <a href="http://localhost:6040/api/auth/verify/passwordRequest/${passwordToken}">
+          Reset Password
+        </a>
+      `
+    });
 
     console.log("Password reset link sent to email");
     return res.status(200).json({

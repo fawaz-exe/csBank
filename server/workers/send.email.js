@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API)
 
 async function sendEmail(emaildata){
     const {data, error} = await resend.emails.send({
-        from: "Ocode <onboarding@resend.dev>",
+        from: "email@0code.in",
         to: emaildata.to,
         subject: emaildata.subject,
         html: emaildata.body
