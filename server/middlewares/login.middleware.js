@@ -1,7 +1,7 @@
 import {body, validationResult} from 'express-validator'
 
 export const loginMiddleware = [
-    body("email", "Email required to login").notEmpty(),
+    body("email", "Email required to login").notEmpty().isEmail(),
     body("password", "Password required to login").notEmpty(),
 
     (req,res,next)=>{

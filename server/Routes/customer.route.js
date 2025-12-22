@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { customerProfile, getCustomerDetails } from '../controllers/customerController.js'
+import { customerProfile, getCustomerDetails } from '../controllers/customer.controller.js'
 import authMiddleware from '../middlewares/auth.middleware.js'
 
 const customerRouter = express.Router();

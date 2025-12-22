@@ -113,22 +113,22 @@ const loginUser = async(req,res) => {
     }
 }
 
-const verifyJWTToken = async(req,res) => {
+const verifyJwtToken = async(req,res) => {
     try {
-        let JToken = req.headers["auth-token"];
-        if(!JToken){
+        let JwtToken = req.headers["auth-token"];
+        if(!JwtToken){
             console.log("JWT Token is missing");
             return res.status(401).json({error: "JWT Token is missing"});
         }
 
-        let decoded = jwt.verify(JToken, process.env.JWT_SECRET);
+        let decoded = jwt.verify(JwtToken, process.env.JWT_SECRET);
 
         const user = await userModel.findById(decoded.payload.user_id)
         if(!user){
                 console.log("User not found !");
                 return res.status(401).json({error: "User not found!"});
         }
-        if(user.jwtToken != JToken){
+        if(user.jwtToken != JwtToken){
             console.log("Invalid Token !");
             return res.status(401).json({message: "Invalid Token !"})
         }
@@ -160,7 +160,6 @@ const logoutUser = async(req,res) => {
 const currentUser = async (req,res) => {
     try {
 
-        // let decoded = jwt.verify(JToken, process.env.JWT_SECRET);
         const user = req.user
         if(!user){
                 console.log("User not found !");
@@ -187,7 +186,7 @@ const passwordResetRequest = async(req,res) => {
         const passwordToken = token();
         
         user.passwordToken.email = passwordToken;
-        user.pverified.email = false;
+        user.passwordTokenVerified.email = false;
         await user.save();
 
         // sendEmail({
@@ -222,7 +221,7 @@ const passwordVerify = async(req,res) => {
             return res.status(401).json({error: "Invalid token ! "});
         }
 
-        user.pverified.email = true;
+        user.passwordTokenVerified.email = true;
         await user.save();
         res.status(200).send(`<h1>Password reset Verified successfully ✅!</h1>`)
     } catch (error) {
@@ -234,7 +233,7 @@ const passwordVerify = async(req,res) => {
 
 const passwordReset = async(req,res) => {
     try {
-        const {userId, newpassword} = req.body;
+        const {userId, newPassword} = req.body;
 
         // const user = await userModel.findById(userId);
         const user = req.user;
@@ -244,16 +243,16 @@ const passwordReset = async(req,res) => {
             return res.status(401).json({error: "User not found!"});
         }
 
-        if (!user.pverified.email) {
+        if (!user.passwordTokenVerified.email) {
             return res.status(403).json({ error: "Password reset not verified" });
     }
 
         const saltRounds = Number(process.env.SALTROUNDS);
-        const hashedPassword = await bcrypt.hash(newpassword, saltRounds)
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds)
         
         user.password = hashedPassword;
         user.passwordToken.email = null;
-        user.pverified.email = false;
+        user.passwordTokenVerified.email = false;
 
         await user.save();
         console.log("Password reset successful");
@@ -279,10 +278,10 @@ const customerProfile = async(req,res) => {
             return res.status(401).json({error: "Customer not found!"});
         }
 
-        if (firstName) customer.firstName = firstName;
-        if (lastName) customer.lastName = lastName;
-        if (phone) customer.phone = phone;
-        if (dateOfBirth) customer.dateOfBirth = dateOfBirth;
+        // if (firstName) customer.firstName = firstName;
+        // if (lastName) customer.lastName = lastName;
+        // if (phone) customer.phone = phone;
+        // if (dateOfBirth) customer.dateOfBirth = dateOfBirth;
         if (address) customer.address = address;
         
         await customer.save();
@@ -313,5 +312,7 @@ const getCustomerDetails = async(req,res) => {
     }
 }
 
-export {registerCustomer, verifyEmail, loginUser, verifyJWTToken, logoutUser, currentUser, passwordResetRequest, passwordVerify, passwordReset, 
+
+
+export {registerCustomer, verifyEmail, loginUser, verifyJwtToken, logoutUser, currentUser, passwordResetRequest, passwordVerify, passwordReset, 
     customerProfile, getCustomerDetails}

@@ -4,7 +4,7 @@ import './dbConnect.js'
 
 import dotenv from 'dotenv'
 dotenv.config()
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 6030
 
 // import arouter from './Routes/user.route.js'
 import authRouter from './Routes/user.route.js'
