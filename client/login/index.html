@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CS-Bank | Registration</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="text-black">
+    
+    <header class="bg-dark text-white py-3 text-center">
+        <h2 class="my-3">CS-Bank Account Login</h2>
+    </header>
+    <div class="container my-5">
+
+        <form class="col g-3" id="register-form" class="register-form">
+
+            <!-- Contact Details -->
+            <!-- <h5 class="mt-4">Contact Details</h5> -->
+
+            <div class="col-md-3 my-3">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" required placeholder="example@domain.com" name="email">
+            </div>
+
+            <!-- Login Details -->
+            <!-- <h5 class="mt-4">Login Credentials</h5> -->
+
+
+            <div class="col-md-3 my-3">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" minlength="4" required name="password" placeholder="******">
+            </div>
+
+            <!-- Submit -->
+            <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+
+        </form>
+        <div class="my-2"><h7>Dont have an account? <a href="../register/">register</a></h7></div>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
