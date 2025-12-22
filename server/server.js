@@ -2,13 +2,14 @@ import express from 'express'
 import cors from 'cors'
 import './dbConnect.js'
 
+import authRouter from './Routes/user.route.js'
+import customerRouter from './Routes/customer.route.js'
+
 import dotenv from 'dotenv'
+
 dotenv.config()
 const PORT = process.env.PORT || 6030
 
-// import arouter from './Routes/user.route.js'
-import authRouter from './Routes/user.route.js'
-import customerRouter from './Routes/customer.route.js'
 
 const server = express()
 server.use(cors())
