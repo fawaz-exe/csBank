@@ -1,7 +1,7 @@
 import {body, validationResult} from 'express-validator'
 
 export const newPasswordMiddleware = [
-    body("userId", "Please enter a valid userId").notEmpty(),
+    // body("userId", "Please enter a valid userId").notEmpty(),
     body('newpassword', "Password must have 8 characters, 1 Lowercase, 1 Uppercase, 1 Number, 1 Symbol").notEmpty().isStrongPassword({
         minLength: 8, minLowercase: 1, minUppercase: 1, minSymbols: 1, minNumbers: 1 }),
         
