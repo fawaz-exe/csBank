@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema({
     }
   },
 
-  pverified: {
+  passwordTokenVerified: {
     email: {
       type: Boolean,
       default: false,

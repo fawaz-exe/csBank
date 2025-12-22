@@ -113,22 +113,22 @@ const loginUser = async(req,res) => {
     }
 }
 
-const verifyJWTToken = async(req,res) => {
+const verifyJwtToken = async(req,res) => {
     try {
-        let JToken = req.headers["auth-token"];
-        if(!JToken){
+        let JWTToken = req.headers["auth-token"];
+        if(!JWTToken){
             console.log("JWT Token is missing");
             return res.status(401).json({error: "JWT Token is missing"});
         }
 
-        let decoded = jwt.verify(JToken, process.env.JWT_SECRET);
+        let decoded = jwt.verify(JWTToken, process.env.JWT_SECRET);
 
         const user = await userModel.findById(decoded.payload.user_id)
         if(!user){
                 console.log("User not found !");
                 return res.status(401).json({error: "User not found!"});
         }
-        if(user.jwtToken != JToken){
+        if(user.jwtToken != JWTToken){
             console.log("Invalid Token !");
             return res.status(401).json({message: "Invalid Token !"})
         }
@@ -144,6 +144,7 @@ const verifyJWTToken = async(req,res) => {
 const logoutUser = async(req,res) => {
     try {
         const user = req.user;
+        // console.log("req dot user : ", user);
 
         user.jwtToken = null;
         await user.save();
@@ -159,7 +160,6 @@ const logoutUser = async(req,res) => {
 const currentUser = async (req,res) => {
     try {
 
-        // let decoded = jwt.verify(JToken, process.env.JWT_SECRET);
         const user = req.user
         if(!user){
                 console.log("User not found !");
@@ -186,7 +186,7 @@ const passwordResetRequest = async(req,res) => {
         const passwordToken = token();
         
         user.passwordToken.email = passwordToken;
-        user.pverified.email = false;
+        user.passwordTokenVerified.email = false;
         await user.save();
 
         // sendEmail({
@@ -217,11 +217,11 @@ const passwordVerify = async(req,res) => {
         const user = await userModel.findOne({'passwordToken.email': token})
 
          if(!user){
-            console.log("User not found !");
-            return res.status(401).json({error: "User not found!"});
+            console.log("Invalid token ! ");
+            return res.status(401).json({error: "Invalid token ! "});
         }
 
-        user.pverified.email = true;
+        user.passwordTokenVerified.email = true;
         await user.save();
         res.status(200).send(`<h1>Password reset Verified successfully ✅!</h1>`)
     } catch (error) {
@@ -233,25 +233,26 @@ const passwordVerify = async(req,res) => {
 
 const passwordReset = async(req,res) => {
     try {
-        const {userId, newpassword} = req.body;
+        const {userId, newPassword} = req.body;
 
-        const user = await userModel.findById(userId);
+        // const user = await userModel.findById(userId);
+        const user = req.user;
 
          if(!user){
             console.log("User not found !");
             return res.status(401).json({error: "User not found!"});
         }
 
-        if (!user.pverified.email) {
+        if (!user.passwordTokenVerified.email) {
             return res.status(403).json({ error: "Password reset not verified" });
     }
 
         const saltRounds = Number(process.env.SALTROUNDS);
-        const hashedPassword = await bcrypt.hash(newpassword, saltRounds)
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds)
         
         user.password = hashedPassword;
         user.passwordToken.email = null;
-        user.pverified.email = false;
+        user.passwordTokenVerified.email = false;
 
         await user.save();
         console.log("Password reset successful");
@@ -265,4 +266,53 @@ const passwordReset = async(req,res) => {
 }
 
 
-export {registerCustomer, verifyEmail, loginUser, verifyJWTToken, logoutUser, currentUser, passwordResetRequest, passwordVerify, passwordReset}
+const customerProfile = async(req,res) => {
+    try {
+        const user = req.user;
+        const {address, firstName, lastName, phone, dateOfBirth} = req.body;
+
+        const customer = await customerModel.findOne({userId: user._id});
+
+        if(!customer){
+            console.log("Customer not found !");
+            return res.status(401).json({error: "Customer not found!"});
+        }
+
+        // if (firstName) customer.firstName = firstName;
+        // if (lastName) customer.lastName = lastName;
+        // if (phone) customer.phone = phone;
+        // if (dateOfBirth) customer.dateOfBirth = dateOfBirth;
+        if (address) customer.address = address;
+        
+        await customer.save();
+        console.log("Profile Details saved ! ");
+        return res.status(200).json({message: "Profile Details saved ! "})
+        } 
+        catch (error) {
+        console.log(error);
+        res.status(500).json({error: error.message})
+    }
+}
+
+const getCustomerDetails = async(req,res) => {
+    try {
+        let customerId = req.params.id;
+
+        const customer = await customerModel.findById(customerId);
+        if(!customer){
+             console.log("Customer not found !");
+            return res.status(401).json({error: "Customer not found!"});
+        }
+
+        console.log("Customer Details : ", customer);
+        return res.status(200).json({message: "Customer Details : ", customer});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error: error.message})
+    }
+}
+
+
+
+export {registerCustomer, verifyEmail, loginUser, verifyJwtToken, logoutUser, currentUser, passwordResetRequest, passwordVerify, passwordReset, 
+    customerProfile, getCustomerDetails}
