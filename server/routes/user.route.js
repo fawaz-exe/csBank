@@ -1,13 +1,14 @@
 import express from 'express'
 
-import { registerCustomer, verifyEmail, loginUser, verifyJwtToken, logoutUser, currentUser, passwordResetRequest, passwordVerify, passwordReset } from '../controllers/customer.controller.js'
+import { registerCustomer, verifyEmail, loginUser, verifyJwtToken, logoutUser, currentUser, passwordResetRequest, passwordVerify, passwordReset } from '../controllers/auth.controller.js'
 import { newPasswordMiddleware } from '../middlewares/newPassword.middleware.js';
 import { loginMiddleware } from '../middlewares/login.middleware.js';
 import authMiddleware from '../middlewares/auth.middleware.js';
+import registerMiddleware from '../middlewares/register.middleware.js';
 
 const authRouter = express.Router();
 
-authRouter.post('/register', registerCustomer);
+authRouter.post('/register', registerMiddleware, registerCustomer);
 authRouter.get('/verify/email/:token', verifyEmail);
 authRouter.post('/login', loginMiddleware, loginUser);
 authRouter.get('/jwt', verifyJwtToken);

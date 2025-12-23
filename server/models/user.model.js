@@ -15,13 +15,11 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["customer", "teller", "admin"],
-      required: true,
+      enum: ["customer", "teller", "admin"]
     },
 
     isActive: {
-      type: Boolean,
-      required: true,
+      type: Boolean
     },
 
     verifyToken: {
@@ -64,14 +62,8 @@ const userSchema = new mongoose.Schema(
     }
   },
 
-  lastLogin: {
-    type: Date,
-    required: true,
-  },
-
     lastLogin: {
-      type: Date,
-      required: true,
+      type: Date
     },
 
     loginHistory: [
@@ -85,12 +77,10 @@ const userSchema = new mongoose.Schema(
       },
     ],
     createdAt:{
-        type: Date,
-        required: true
+        type: Date
     },
     updatedAt:{
-        type: Date,
-        required: true
+        type: Date
     }
   },
 //   { Timestamp: true }//this is giving us createdAt and updatedAt data;
@@ -98,4 +88,4 @@ const userSchema = new mongoose.Schema(
 
 const User = mongoose.model("User", userSchema);
 
-export default userModel;
+export default User;
