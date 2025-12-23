@@ -35,6 +35,17 @@ const userSchema = new mongoose.Schema(
       },
     },
 
+    verified: {
+    email: {
+      type: Boolean,
+      default: false,
+    },
+    phone: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
   jwtToken: {
     type: String
   },
