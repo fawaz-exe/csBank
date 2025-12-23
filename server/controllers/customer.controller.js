@@ -47,8 +47,8 @@ const registerCustomer = async(req,res) => {
 
 
         console.log("Customer Registered successfully. Email Verification required !");
-        return res.status(201).json({
-        message: "Customer Registered successfully. Email Verification required !", customer
+        return res.status(201).json({success : true, 
+        message: "Customer Registered successfully. Email Verification required !", data: customer
     });        
         
     } catch (error) {
@@ -97,7 +97,7 @@ const loginUser = async(req,res) => {
 
         if(user.verified.email == false){
             console.log("User not verified. Please verify and try again");
-            return res.status(400).json({message : "User not verified. Please verify and try again"});
+            return res.status(400).json({success: false, message : "User not verified. Please verify and try again"});
         }
 
         const jwtToken = generateToken(payload);
@@ -150,7 +150,7 @@ const logoutUser = async(req,res) => {
         await user.save();
 
         console.log("User logged out successfully");
-        return res.status(200).json({message: "User logged out successfully"});
+        return res.status(200).json({success: true, message: "User logged out successfully", data: user});
     } catch (error) {
         console.log(error);
         return res.status(500).json({ error });
@@ -167,7 +167,7 @@ const currentUser = async (req,res) => {
             }
 
             const {password, jwtToken, ...userData} = user.toObject()
-            return res.status(200).json({user: userData});
+            return res.status(200).json({success: true, user: userData});
     } catch (error) {
         console.log(error);
         return res.status(500).json({ error });
@@ -256,7 +256,7 @@ const passwordReset = async(req,res) => {
 
         await user.save();
         console.log("Password reset successful");
-        res.status(200).json({ message: "Password reset successful" });
+        res.status(200).json({success: true, message: "Password reset successful", data: user});
 
        
     } catch (error) {
@@ -283,7 +283,7 @@ const customerProfile = async(req,res) => {
         
         await customer.save();
         console.log("Profile Details saved ! ");
-        return res.status(200).json({message: "Profile Details saved ! "})
+        return res.status(200).json({success: true, message: "Profile Details saved ! ", data: customer})
         } 
         catch (error) {
         console.log(error);
@@ -302,7 +302,7 @@ const getCustomerDetails = async(req,res) => {
         }
 
         console.log("Customer Details : ", customer);
-        return res.status(200).json({message: "Customer Details : ", customer});
+        return res.status(200).json({success: true, message: "Customer Details : ", data: customer});
     } catch (error) {
         console.log(error);
         res.status(500).json({error: error.message})
@@ -347,9 +347,9 @@ if (address) {
 
     await customer.save();
 
-    return res.status(200).json({
+    return res.status(200).json({ success: true,
       message: "Customer details updated successfully",
-      customer
+      data: customer
     });
 
   } catch (error) {
