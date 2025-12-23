@@ -29,7 +29,7 @@ const customerSchema = mongoose.Schema({
     required: true,
   },
 
-  address: [
+  address: 
     {
       street: {
         type: String,
@@ -44,7 +44,6 @@ const customerSchema = mongoose.Schema({
         type: String,
       },
     },
-  ],
 
   status:
     {

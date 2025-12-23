@@ -327,11 +327,21 @@ const updateCustomerDetails = async (req, res) => {
     if (phone) customer.phone = phone;
     if (dateOfBirth) customer.dateOfBirth = dateOfBirth;
 
-   if (address) {
-  if (address.street) customer.address[0].street = address.street;  
-  if (address.city) customer.address[0].city = address.city;
-  if (address.state) customer.address[0].state = address.state;
-  if (address.pinCode) customer.address[0].pinCode = address.pinCode;
+//    if (address) {
+//   if (address.street) customer.address[0].street = address.street;  
+//   if (address.city) customer.address[0].city = address.city;
+//   if (address.state) customer.address[0].state = address.state;
+//   if (address.pinCode) customer.address[0].pinCode = address.pinCode;
+// }
+if (address) {
+    if(!customer.address){
+        customer.address = {}
+    }
+
+  if (address.street) customer.address.street = address.street;
+  if (address.city) customer.address.city = address.city;
+  if (address.state) customer.address.state = address.state;
+  if (address.pinCode) customer.address.pinCode = address.pinCode;
 }
 
 
