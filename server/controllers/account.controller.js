@@ -32,7 +32,7 @@ const createAccount = async (req, res) => {
     
     const {userId, accountType} = req.body
 
-    if(accountType !== "savings" || accountType !== "savings"){
+    if(accountType !== "SAVINGS" || accountType !== "CURRENT"){
         return res.status(400).json({
             success: false,
             message: "Invalid account type"
