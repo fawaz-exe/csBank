@@ -1,49 +1,39 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-  },
-
-  password: {
-    type: String,
-    required: true,
-  },
-
-  role: {
-    type: String,
-    enum: ["customer", "teller", "admin"],
-    required: true,
-  },
-
-  isActive: {
-      type: Boolean,
-      required: true
-    },
-
-      verifyToken: {
+const userSchema = new mongoose.Schema(
+  {
     email: {
       type: String,
-      default: null,
+      unique: true,
+      required: true,
     },
-    phone: {
-      type: String,
-      default: null,
-    },
-  },
 
-  verified: {
-    email: {
-      type: Boolean,
-      default: false,
+    password: {
+      type: String,
+      required: true,
     },
-    phone: {
-      type: Boolean,
-      default: false,
+
+    role: {
+      type: String,
+      enum: ["customer", "teller", "admin"],
+      required: true,
     },
-  },
+
+    isActive: {
+      type: Boolean,
+      required: true,
+    },
+
+    verifyToken: {
+      email: {
+        type: String,
+        default: null,
+      },
+      phone: {
+        type: String,
+        default: null,
+      },
+    },
 
   jwtToken: {
     type: String
@@ -68,23 +58,33 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 
+    lastLogin: {
+      type: Date,
+      required: true,
+    },
 
-  loginHistory: [
-  {
-    timestamp: { type: Date },
-    ipAddress: { type: String },
-    status: {
-      type: String,
-      enum: ["success", "failed"]
+    loginHistory: [
+      {
+        timestamp: { type: Date },
+        ipAddress: { type: String },
+        status: {
+          type: String,
+          enum: ["success", "failed"],
+        },
+      },
+    ],
+    createdAt:{
+        type: Date,
+        required: true
+    },
+    updatedAt:{
+        type: Date,
+        required: true
     }
-  }
-],
+  },
+//   { Timestamp: true }//this is giving us createdAt and updatedAt data;
+); 
 
- timestamp:{
-    type: Date
- }
-});
-
-const userModel = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
 export default userModel;

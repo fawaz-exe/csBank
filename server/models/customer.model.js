@@ -45,60 +45,111 @@ const customerSchema = mongoose.Schema({
       },
     },
 
-  status:
-    {
+    firstName: {
+      type: String,
+      required: true,
+    },
+
+    lastName: {
+      type: String,
+    },
+
+    phone: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
+    dateOfBirth: {
+      type: Date,
+      required: true,
+    },
+
+    address: [
+      {
+        street: {
+          type: String,
+        },
+        city: {
+          type: String,
+        },
+        state: {
+          type: String,
+        },
+        country:{
+            type: String,
+        },
+        pinCode: {
+          type: String,
+        },
+      },
+    ],
+
+    status: {
       type: String,
       enum: ["pending", "active", "suspended", "closed"],
       default: "pending",
     },
 
-  customerSince: {
-    type: Date,
-  },
-
-  alerts: [
-    {
-      type: {
-        type: String,
-        enum: ["low_balance", "large_transaction", "security"],
-      },
-      message: String,
-      isRead: {
-        type: Boolean,
-        default: false,
-      },
-      createdAt: {
-        type: Date,
-        default: Date.now,
-      },
-    },
-  ],
-
-  debitCard: [{
-    type: String,
-    cardNumber: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    expiryDate: {
+    customerSince: {
       type: Date,
-      required: true,
     },
-    cvv: {
-      type: String,
-      required: true,
-    },
-    isActive: {
-      type: Boolean,
-      required: true,
-    },
-    dailyLimit: {
-      type: Number,
-      default: 50000,
-    },
-  }],
-});
 
-const customerModel = mongoose.model("Customer", customerSchema);
-export default customerModel;
+    alerts: [
+      {
+        type: {
+          type: String,
+          enum: ["low_balance", "large_transaction", "security"],
+        },
+        message: String,
+        isRead: {
+          type: Boolean,
+          default: false,
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
+    debitCard: [
+      {
+        type: String,
+        cardNumber: {
+          type: String,
+          required: true,
+          unique: true,
+        },
+        expiryDate: {
+          type: Date,
+          required: true,
+        },
+        cvv: {
+          type: String,
+          required: true,
+        },
+        isActive: {
+          type: Boolean,
+          required: true,
+        },
+        dailyLimit: {
+          type: Number,
+          default: 50000,
+        },
+      },
+    ],
+    createdAt:{
+        type: Date,
+        required: true
+    },
+    updatedAt:{
+        type: Date,
+        required: true
+    }
+  },
+//   { Timestamp: true }//this is giving us createdAt and updatedAt data;
+); 
+
+const Customer = mongoose.model("Customer", customerSchema);
+export default Customer;
