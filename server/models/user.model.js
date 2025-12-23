@@ -18,12 +18,12 @@ const userSchema = new mongoose.Schema(
       enum: ["customer", "teller", "admin"],
       required: true,
     },
-
+//if the user is active or not
     isActive: {
       type: Boolean,
       required: true,
     },
-
+//store verification token
     verifyToken: {
       email: {
         type: String,
@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema(
         default: null,
       },
     },
-
+//after verification, the value cahnges to true
     verified: {
     email: {
       type: Boolean,
@@ -45,34 +45,29 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
   },
-
+//store jwt token
   jwtToken: {
     type: String
   },
-
+//store password verified token
   passwordToken: {
     email: {
       type: String,
       default: null,
     }
   },
-
+//After verficationis done, the value changes to true
   passwordTokenVerified: {
     email: {
       type: Boolean,
       default: false,
     }
   },
-
+//the most recent login date
   lastLogin: {
     type: Date,
-    required: true,
   },
-
-    lastLogin: {
-      type: Date,
-      required: true,
-    },
+//login history o fthe user in an array. entire history
 
     loginHistory: [
       {
@@ -84,13 +79,13 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+
     createdAt:{
         type: Date,
-        required: true
     },
+    
     updatedAt:{
         type: Date,
-        required: true
     }
   },
 //   { Timestamp: true }//this is giving us createdAt and updatedAt data;
@@ -98,4 +93,4 @@ const userSchema = new mongoose.Schema(
 
 const User = mongoose.model("User", userSchema);
 
-export default userModel;
+export default User;
