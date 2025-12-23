@@ -18,12 +18,12 @@ const userSchema = new mongoose.Schema(
       enum: ["customer", "teller", "admin"],
       required: true,
     },
-
+//if the user is active or not
     isActive: {
       type: Boolean,
       required: true,
     },
-
+//store verification token
     verifyToken: {
       email: {
         type: String,
@@ -34,23 +34,42 @@ const userSchema = new mongoose.Schema(
         default: null,
       },
     },
-
+//after verification, the value cahnges to true
     verified: {
-      email: {
-        type: Boolean,
-        default: false,
-      },
-      phone: {
-        type: Boolean,
-        default: false,
-      },
+    email: {
+      type: Boolean,
+      default: false,
     },
-
-    lastLogin: {
-      type: Date,
-      required: true,
+    phone: {
+      type: Boolean,
+      default: false,
     },
+  },
+//store jwt token
+  jwtToken: {
+    type: String
+  },
+//store password verified token
+  passwordToken: {
+    email: {
+      type: String,
+      default: null,
+    }
+  },
+//After verficationis done, the value changes to true
+  passwordTokenVerified: {
+    email: {
+      type: Boolean,
+      default: false,
+    }
+  },
+//the most recent login date
+  lastLogin: {
+    type: Date,
+    required: true,
+  },
 
+//login history o fthe user in an array. entire history
     loginHistory: [
       {
         timestamp: { type: Date },

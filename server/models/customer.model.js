@@ -1,54 +1,51 @@
 import mongoose from "mongoose";
 
-const customerSchema = mongoose.Schema(
-  {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-      unique: true,
-    },
+const customerSchema = mongoose.Schema({
+//user id is taken from the reference of user from the userSchema     
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    unique: true,
+  },
 
-    firstName: {
-      type: String,
-      required: true,
-    },
+  firstName: {
+    type: String,
+    required: true,
+  },
 
-    lastName: {
-      type: String,
-    },
+  lastName: {
+    type: String,
+  },
 
-    phone: {
-      type: String,
-      required: true,
-      unique: true,
-    },
+  phone: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 
-    dateOfBirth: {
-      type: Date,
-      required: true,
-    },
+  dateOfBirth: {
+    type: Date,
+    required: true,
+  },
 
-    address: [
-      {
-        street: {
-          type: String,
-        },
-        city: {
-          type: String,
-        },
-        state: {
-          type: String,
-        },
-        country:{
-            type: String,
-        },
-        pinCode: {
-          type: String,
-        },
+  address: 
+    {
+      street: {
+        type: String,
       },
-    ],
+      city: {
+        type: String,
+      },
+      state: {
+        type: String,
+      },
+      pinCode: {
+        type: String,
+      },
+    },
 
+//Status of customer will change from pending to active once the teller approves the customer account
     status: {
       type: String,
       enum: ["pending", "active", "suspended", "closed"],
@@ -76,7 +73,7 @@ const customerSchema = mongoose.Schema(
         },
       },
     ],
-
+//This is will be added once the customer makes an account and then applies for debit card
     debitCard: [
       {
         type: String,
