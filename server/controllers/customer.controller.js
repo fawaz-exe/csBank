@@ -62,7 +62,7 @@ const verifyEmail = async(req,res) => {
     try {
         let token = req.params.token;
         const user = await userModel.findOne({'verifyToken.email': token})
-        user.verified.email = 'true'
+        user.verified.email = true
         await user.save();
 
         res.status(200).send(`<h1>Email is verified successfully 👍! </h1>`)
