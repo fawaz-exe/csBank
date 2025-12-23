@@ -102,11 +102,9 @@ const customerSchema = mongoose.Schema({
     ],
     createdAt:{
         type: Date,
-        required: true
     },
     updatedAt:{
         type: Date,
-        required: true
     }
   },
 //   { Timestamp: true }//this is giving us createdAt and updatedAt data;
