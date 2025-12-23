@@ -31,7 +31,7 @@ const customerSchema = mongoose.Schema({
 
   address: [
     {
-      steet: {
+      street: {
         type: String,
       },
       city: {
