@@ -66,13 +66,7 @@ const userSchema = new mongoose.Schema(
 
   lastLogin: {
     type: Date,
-    required: true,
   },
-
-    lastLogin: {
-      type: Date,
-      required: true,
-    },
 
     loginHistory: [
       {
@@ -84,9 +78,11 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+
     createdAt:{
         type: Date,
     },
+    
     updatedAt:{
         type: Date,
     }
