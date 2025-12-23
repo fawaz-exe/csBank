@@ -66,10 +66,9 @@ const userSchema = new mongoose.Schema(
 //the most recent login date
   lastLogin: {
     type: Date,
-    required: true,
   },
-
 //login history o fthe user in an array. entire history
+
     loginHistory: [
       {
         timestamp: { type: Date },
@@ -80,13 +79,13 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+
     createdAt:{
         type: Date,
-        required: true
     },
+    
     updatedAt:{
         type: Date,
-        required: true
     }
   },
 //   { Timestamp: true }//this is giving us createdAt and updatedAt data;
