@@ -62,7 +62,7 @@ const verifyEmail = async(req,res) => {
     try {
         let token = req.params.token;
         const user = await userModel.findOne({'verifyToken.email': token})
-        user.verified.email = 'true'
+        user.verified.email = true
         await user.save();
 
         res.status(200).send(`<h1>Email is verified successfully 👍! </h1>`)
@@ -278,10 +278,7 @@ const customerProfile = async(req,res) => {
             return res.status(401).json({error: "Customer not found!"});
         }
 
-        // if (firstName) customer.firstName = firstName;
-        // if (lastName) customer.lastName = lastName;
-        // if (phone) customer.phone = phone;
-        // if (dateOfBirth) customer.dateOfBirth = dateOfBirth;
+        
         if (address) customer.address = address;
         
         await customer.save();
@@ -313,6 +310,53 @@ const getCustomerDetails = async(req,res) => {
 }
 
 
+const updateCustomerDetails = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { firstName, lastName, phone, dateOfBirth, address } = req.body;
+
+    const customer = await customerModel.findOne({ userId });
+
+    if (!customer) {
+      return res.status(404).json({ error: "Customer not found!" });
+    }
+
+
+    if (firstName) customer.firstName = firstName;
+    if (lastName) customer.lastName = lastName;
+    if (phone) customer.phone = phone;
+    if (dateOfBirth) customer.dateOfBirth = dateOfBirth;
+
+//    if (address) {
+//   if (address.street) customer.address[0].street = address.street;  
+//   if (address.city) customer.address[0].city = address.city;
+//   if (address.state) customer.address[0].state = address.state;
+//   if (address.pinCode) customer.address[0].pinCode = address.pinCode;
+// }
+if (address) {
+    if(!customer.address){
+        customer.address = {}
+    }
+
+  if (address.street) customer.address.street = address.street;
+  if (address.city) customer.address.city = address.city;
+  if (address.state) customer.address.state = address.state;
+  if (address.pinCode) customer.address.pinCode = address.pinCode;
+}
+
+
+    await customer.save();
+
+    return res.status(200).json({
+      message: "Customer details updated successfully",
+      customer
+    });
+
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 
 export {registerCustomer, verifyEmail, loginUser, verifyJwtToken, logoutUser, currentUser, passwordResetRequest, passwordVerify, passwordReset, 
-    customerProfile, getCustomerDetails}
+    customerProfile, getCustomerDetails, updateCustomerDetails}
