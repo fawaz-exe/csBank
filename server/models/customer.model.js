@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const customerSchema = mongoose.Schema({
-    
+//user id is taken from the reference of user from the userSchema     
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -45,7 +45,7 @@ const customerSchema = mongoose.Schema({
       },
     },
 
-
+//Status of customer will change from pending to active once the teller approves the customer account
     status: {
       type: String,
       enum: ["pending", "active", "suspended", "closed"],
@@ -73,7 +73,7 @@ const customerSchema = mongoose.Schema({
         },
       },
     ],
-
+//This is will be added once the customer makes an account and then applies for debit card
     debitCard: [
       {
         type: String,
