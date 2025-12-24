@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CS-Bank | Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <!-- <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">CS-Bank Dashboard</span>
+            <button class="btn btn-outline-light btn-sm">Logout</button>
+        </div>
+    </nav> -->
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg py-4 fs-5">
+        <div class="container-fluid">
+
+            <!-- Brand -->
+            <a class="navbar-brand fs-4" href="#">CS-Bank</a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Content -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+
+                <!-- Left: Quick Actions -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="../dashboard/">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../profile/">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Transfer Money</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../statement/">Statement</a>
+                    </li>
+                </ul>
+
+                <!-- Right: User + Logout -->
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-white small">
+                        Welcome, <strong id="nav-customer-name">----</strong>
+                    </span>
+                    <button class="btn btn-outline-light btn-sm">Logout</button>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container my-4">
+
+        <!-- Welcome -->
+        <div class="row mb-4">
+            <div class="col">
+                <h4>Welcome, <span id="page-customer-name">----</span></h4>
+                <p class="text-muted">Account overview</p>
+            </div>
+        </div>
+
+        <!-- Account -->
+        <div class="row g-3 mb-4">
+
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-title text-muted">Account Number</h6>
+                        <h5 id="account-number">---- ---- ----</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-title text-muted">Account Type</h6>
+                        <h5 id="account-type">----</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-title text-muted">Available Balance</h6>
+                        <h5 class="text-success">₹ <span id="balance">----</span></h5>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Quick Actions -->
+        <!-- <div class="row mb-4">
+            <div class="col">
+                <h5>Quick Actions</h5>
+                <div class="d-flex gap-2 flex-wrap">
+                    <button class="btn btn-primary">Transfer Money</button>
+                    <button class="btn btn-secondary">View Statement</button>
+                    <button class="btn btn-warning">Update Profile</button>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- Transactions -->
+        <div class="row">
+            <div class="col">
+                <h5>Recent Transactions</h5>
+
+                <div class="table-responsive">
+                    <table class="table table-responsive table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactions-table">
+                            <tr>
+                                <td>----</td>
+                                <td class="text-danger">----</td>
+                                <td>----</td>
+                                <td>----</td>
+                            </tr>
+                            <tr>
+                                <td>----</td>
+                                <td class="text-success">----</td>
+                                <td>----</td>
+                                <td>----</td>
+                            </tr>
+                            <tr>
+                                <td>----</td>
+                                <td class="text-danger">----</td>
+                                <td>----</td>
+                                <td>----</td>
+                            </tr>
+                            <!-- <tr>
+                                <td>₹2,000</td>
+                                <td class="text-danger">Debit</td>
+                                <td>2025-01-10</td>
+                                <td>ATM Withdrawal</td>
+                            </tr>
+                            <tr>
+                                <td>₹30,000</td>
+                                <td class="text-success">Credit</td>
+                                <td>2025-01-08</td>
+                                <td>Salary Credit</td>
+                            </tr>
+                            <tr>
+                                <td>₹1,500</td>
+                                <td class="text-danger">Debit</td>
+                                <td>2025-01-05</td>
+                                <td>UPI Transfer</td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CS-Bank | Profile</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg py-4 fs-5">
+        <div class="container-fluid">
+            <a class="navbar-brand fs-4" href="../dashboard/">CS-Bank</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+
+                <!-- Quick Actions -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../dashboard/">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="../profile/">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Transfer Money</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../statement/">Statement</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-white small">
+                        Welcome, <strong id="customer-name">----</strong>
+                    </span>
+                    <button class="btn btn-outline-light btn-sm">Logout</button>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+
+        <h4 class="mb-4">My Profile</h4>
+
+        <!-- Profile Card -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h6 class="text-muted mb-3">Personal Information</h6>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <strong>First Name</strong>
+                        <p id="first-name">----</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Last Name</strong>
+                        <p id="last-name">----</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Date of Birth</strong>
+                        <p id="dob">----</p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h6 class="text-muted mb-3">Contact Details</h6>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Email</strong>
+                        <p id="email">----</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Mobile</strong>
+                        <p id="mobile">+91 ----</p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h6 class="text-muted mb-3">Address</h6>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Street</strong>
+                        <p id="street">----</p>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>City</strong>
+                        <p id="city">----</p>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Pincode</strong>
+                        <p id="pincode">----</p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h6 class="text-muted mb-3">Account Information</h6>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <strong>Account Number</strong>
+                        <p id="account-number">----</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Account Type</strong>
+                        <p id="account-type">----</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Branch</strong>
+                        <p id="branch">----</p>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="mt-4 d-flex gap-2">
+                    <button class="btn btn-primary">Edit Profile</button>
+                    <!-- <button class="btn btn-outline-secondary">Update Password</button> -->
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
