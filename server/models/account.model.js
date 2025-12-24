@@ -7,25 +7,25 @@ const accountSchema = mongoose.Schema(
       ref: "Customer",
       required: true,
     },
-
+//Account number will be auto generated 
     accountNumber: {
       type: String,
       unique: true,
       required: true,
     },
-
+//user gets to select from either of account type
     accountType: {
       type: String,
       enum: ["savings", "current"],
       required: true,
     },
-
+//This sets initial minimum balance
     balance: {
       type: Number,
-      min: 1000, //This sets initial minimum balance
+      min: 1000, 
       default: 1000,
     },
-
+//The limit is per day
     transferLimit: {
       type: Number,
       min: 1,
@@ -41,7 +41,7 @@ const accountSchema = mongoose.Schema(
       type: Number,
       default: 100000,
     },
-
+//Once the account is activated, it changes from pending to active
     status: {
       type: String,
       enum: ["pending", "active", "suspended", "closed"],
@@ -49,11 +49,9 @@ const accountSchema = mongoose.Schema(
     },
     createdAt:{
         type: Date,
-        required: true
     },
     updatedAt:{
         type: Date,
-        required: true
     }
   },
 //   { Timestamp: true }//this is giving us createdAt and updatedAt data;

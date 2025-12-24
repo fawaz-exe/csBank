@@ -17,11 +17,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["customer", "teller", "admin"]
     },
-
+//if the user is active or not
     isActive: {
       type: Boolean
     },
-
+//store verification token
     verifyToken: {
       email: {
         type: String,
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema(
         default: null,
       },
     },
-
+//after verification, the value cahnges to true
     verified: {
     email: {
       type: Boolean,
@@ -43,18 +43,18 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
   },
-
+//store jwt token
   jwtToken: {
     type: String
   },
-
+//store password verified token
   passwordToken: {
     email: {
       type: String,
       default: null,
     }
   },
-
+//After verficationis done, the value changes to true
   passwordTokenVerified: {
     email: {
       type: Boolean,
@@ -76,9 +76,11 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+
     createdAt:{
         type: Date
     },
+    
     updatedAt:{
         type: Date
     }
