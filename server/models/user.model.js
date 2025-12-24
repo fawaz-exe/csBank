@@ -15,13 +15,11 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["customer", "teller", "admin"],
-      required: true,
+      enum: ["customer", "teller", "admin"]
     },
 //if the user is active or not
     isActive: {
-      type: Boolean,
-      required: true,
+      type: Boolean
     },
 //store verification token
     verifyToken: {
@@ -63,11 +61,10 @@ const userSchema = new mongoose.Schema(
       default: false,
     }
   },
-//the most recent login date
-  lastLogin: {
-    type: Date,
-  },
-//login history o fthe user in an array. entire history
+
+    lastLogin: {
+      type: Date
+    },
 
     loginHistory: [
       {
@@ -81,11 +78,11 @@ const userSchema = new mongoose.Schema(
     ],
 
     createdAt:{
-        type: Date,
+        type: Date
     },
     
     updatedAt:{
-        type: Date,
+        type: Date
     }
   },
 //   { Timestamp: true }//this is giving us createdAt and updatedAt data;

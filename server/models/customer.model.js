@@ -5,7 +5,7 @@ const customerSchema = mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    // required: true,
     unique: true,
   },
 
@@ -91,8 +91,7 @@ const customerSchema = mongoose.Schema({
           required: true,
         },
         isActive: {
-          type: Boolean,
-          required: true,
+          type: Boolean
         },
         dailyLimit: {
           type: Number,
@@ -101,10 +100,10 @@ const customerSchema = mongoose.Schema({
       },
     ],
     createdAt:{
-        type: Date,
+        type: Date
     },
     updatedAt:{
-        type: Date,
+        type: Date
     }
   },
 //   { Timestamp: true }//this is giving us createdAt and updatedAt data;
