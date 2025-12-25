@@ -12,7 +12,7 @@ export const loginMiddleware = [
                 field: err.path,
                 location: err.location
             }));
-            return res.status(400).json({errors: myerrors})
+            return res.status(400).json({success : false, message: myerrors})
         }
         next();
     }

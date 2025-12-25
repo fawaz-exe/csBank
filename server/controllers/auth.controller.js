@@ -3,6 +3,8 @@ import Customer from "../models/customer.model.js"
 import token from "../utils/token.utils.js";
 import { generateToken } from "../utils/jwt.utils.js";
 import sendEmail from "../workers/send.email.js";
+import generateSixDigitNumber from "../utils/otp.utils.js";
+import sendSMS from "../workers/send.sms.js";
 import bcrypt from "bcrypt"
 
 import dotenv from 'dotenv'
@@ -14,7 +16,6 @@ const seedPassword = process.env.SEED_PASSWORD;
 const registerCustomer = async(req,res) => {
     try {
         const {email, password, firstName, lastName, dateOfBirth, phone, address} = req.body;
-        
         const existingUser = await User.findOne({email: req.body.email});
         
         if(existingUser){
@@ -24,16 +25,18 @@ const registerCustomer = async(req,res) => {
 
             const saltRounds = Number(process.env.SALTROUNDS);
             const hashedPassword = await bcrypt.hash(password, saltRounds);
+
             let emailtoken = token();
-            let phonetoken = token();
+            let phoneOtp = generateSixDigitNumber();
             let clientIp = req.socket.remoteAddress;
+            const formattedPhone = phone.startsWith("+91") ? phone : `+91${phone}`
             
             const user = await User.create({
-                email: email, password : hashedPassword, role : "customer", isActive : true, 
+                email: email, phone: formattedPhone, password : hashedPassword, role : "customer", isActive : true, 
                 lastLogin: new Date(),
                 verifyToken : {
                     email : emailtoken,
-                    phone: phonetoken
+                    phone: phoneOtp.toString()
                 },
                 createdAt: new Date(),
                 loginHistory: [
@@ -56,28 +59,37 @@ const registerCustomer = async(req,res) => {
             
 
              const customer = await Customer.create({
-                firstName, lastName, dateOfBirth, phone: phone, address,
+                firstName, lastName, dateOfBirth, address,
                 customerSince: new Date(),
                 createdAt: new Date(),
                 userId : user._id.toString()
             });
 
 
-        sendEmail({
+        await sendEmail({
             to: user.email,
             subject : 'Email Confirmation',
             body: `
             Hello ${req.body.firstname}<br>
             Please click this <a href = "http://localhost:6040/api/auth/verify/email/${emailtoken}">Click Me</a>
             <br>
-            Thankyou :)
+            Thankyou.
             `
         });
 
+        await sendSMS({
+            to : user.phone,
+            body: `
+            Hello ${req.body.firstname}<br>
+            Please click this link to verify your phone number<a href = "http://localhost:6040/api/auth/verify/phone/${phoneOtp}">Click Me</a>
+            Thankyou.
+            `
+        })
 
-        console.log("Customer Registered successfully. Email Verification required !");
+
+        console.log("Customer Registered successfully. Please check your Email & Phone-SMS. Verification is required !");
         return res.status(201).json({success : true, 
-        message: "Customer Registered successfully. Email Verification required !", data: customer
+        message: "Customer Registered successfully. Please check your Email & Phone-SMS. Verification is required !", data: customer
     });        
         }
         catch (error) {
@@ -100,6 +112,21 @@ const verifyEmail = async(req,res) => {
         res.status(500).json({success: false, message: error.message, data : "Internal server error"})
     }
 }
+
+const verifyPhone = async(req,res) => {
+    try {
+        let otp = req.params.otp;
+        const user = await User.findOne({'verifyToken.phone': otp})
+        user.verified.phone = true
+        await user.save();
+        console.log("Phone is verified successfully ");
+        res.status(200).json({success: true, message: "Phone is verified successfully !"})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({success: false, message: error.message, data : "Internal server error"})
+    }
+}
+
 
 
 const loginUser = async(req,res) => {
@@ -128,13 +155,31 @@ const loginUser = async(req,res) => {
             console.log("Email not verified. Please verify and try again");
             return res.status(400).json({success: false, message : "Email not verified. Please verify and try again"});
         }
+        if(user.verified.phone == false){
+            console.log("Phone not verified. Please verify and try again");
+            return res.status(400).json({success: false, message : "Phone not verified. Please verify and try again"});
+        }
 
         const jwtToken = generateToken(payload);
         user.jwtToken = jwtToken;
         await user.save();
 
-        console.log("User login successfull", user);
-        return res.status(200).json({success: true, message: "User login successfull", data: user});
+        // const {verifyToken, verified, passwordToken, passwordTokenVerified, lastLogin, loginHistory, createdAt, updatedAt, ...otherData} = user.toObject()
+        // delete user.password;
+
+        const otherData = user.toObject();
+        delete otherData.verifyToken
+        delete otherData.verified
+        delete otherData.password
+        delete otherData.passwordToken
+        delete otherData.passwordTokenVerified
+        delete otherData.lastLogin
+        delete otherData.loginHistory
+        delete otherData.createdAt
+        delete otherData.updatedAt
+
+        console.log("User login successfull", otherData);
+        return res.status(200).json({success: true, message: "User login successfull", data: otherData});
 
     } catch (error) {
         console.log(error);
@@ -147,7 +192,7 @@ const verifyJwtToken = async(req,res) => {
         let JWTToken = req.headers["auth-token"];
         if(!JWTToken){
             console.log("JWT Token is missing");
-            return res.status(401).json({success: false, message: "JWT Token is missing"});
+            return res.status(403).json({success: false, message: "JWT Token is missing"});
         }
 
         let decoded = jwt.verify(JWTToken, process.env.JWT_SECRET);
@@ -159,7 +204,7 @@ const verifyJwtToken = async(req,res) => {
         }
         if(user.jwtToken != JWTToken){
             console.log("Invalid Token !");
-            return res.status(401).json({success: false, message: "Invalid Token !"})
+            return res.status(403).json({success: false, message: "Invalid Token !"})
         }
         
         console.log("decoded: ", decoded);
@@ -178,8 +223,10 @@ const logoutUser = async(req,res) => {
         user.jwtToken = null;
         await user.save();
 
-        console.log("User logged out successfully");
-        return res.status(200).json({success: true, message: "User logged out successfully", data: user});
+        const {password, jwtToken, verifyToken, verified, passwordToken, passwordTokenVerified, lastLogin, loginHistory, createdAt, updatedAt, ...userData} = user.toObject()
+
+        console.log("User logged out successfully", userData);
+        return res.status(200).json({success: true, message: "User logged out successfully", data: userData});
     } catch (error) {
         console.log(error);
         res.status(500).json({success: false, message: error.message, data : "Internal server error"})
@@ -195,8 +242,8 @@ const currentUser = async (req,res) => {
                 return res.status(401).json({success: false, message: "User not found!"});
             }
 
-            const {password, jwtToken, ...userData} = user.toObject()
-            return res.status(200).json({success: true, message: "Fetched current User Details", user: userData});
+            const {password, jwtToken, verifyToken, verified, passwordToken, passwordTokenVerified, lastLogin, loginHistory, createdAt, updatedAt, ...userData} = user.toObject()
+            return res.status(200).json({success: true, message: "Fetched current User Details", data: userData});
     } catch (error) {
         console.log(error);
         res.status(500).json({success: false, message: error.message, data : "Internal server error"})
@@ -286,8 +333,11 @@ const passwordReset = async(req,res) => {
         user.passwordTokenVerified.email = false;
 
         await user.save();
+
+        const {password, jwtToken, verifyToken, verified, passwordToken, passwordTokenVerified, lastLogin, loginHistory, createdAt, updatedAt, ...userData} = user.toObject()
+
         console.log("Password reset successful");
-        res.status(200).json({success: true, message: "Password reset successful", data: user});
+        res.status(200).json({success: true, message: "Password reset successful", data: userData});
 
        
     } catch (error) {
@@ -300,4 +350,4 @@ const passwordReset = async(req,res) => {
 
 
 
-export {registerCustomer, verifyEmail, loginUser, verifyJwtToken, logoutUser, currentUser, passwordResetRequest, passwordVerify, passwordReset}
+export {registerCustomer, verifyEmail, verifyPhone, loginUser, verifyJwtToken, logoutUser, currentUser, passwordResetRequest, passwordVerify, passwordReset}
