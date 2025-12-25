@@ -22,8 +22,7 @@ const accountSchema = mongoose.Schema(
 //This sets initial minimum balance
     balance: {
       type: Number,
-      min: 1000, 
-      default: 1000,
+      default: 0,
     },
 //The limit is per day
     transferLimit: {
