@@ -12,7 +12,7 @@ async function authMiddleware(req,res,next) {
 
         if(!JToken){
             console.log("JWT Token is missing");
-            return res.status(401).json({error: "JWT Token is missing"});
+            return res.status(403).json({success: false, message: "JWT Token is missing"});
         }
 
         let decoded = jwt.verify(JToken, process.env.JWT_SECRET);
@@ -20,11 +20,11 @@ async function authMiddleware(req,res,next) {
         const user = await userModel.findById(decoded.payload.user_id)
         if(!user){
                     console.log("User not found !");
-                    return res.status(401).json({error: "User not found!"});
+                    return res.status(401).json({success: false, message: "User not found!"});
                 }
         if(user.jwtToken != JToken){
             console.log("Invalid Token !");
-            return res.status(401).json({message: "Invalid Token !"})
+            return res.status(403).json({success: false, message: "Invalid Token !"})
         }
 
         console.log(decoded);
@@ -33,7 +33,7 @@ async function authMiddleware(req,res,next) {
         req.token = JToken; //
         next();
     } catch (error) {
-        res.status(401).json({error: "Auth Token Expired or Invalid !"});
+        res.status(401).json({success: false, message: "Auth Token Expired or Invalid !"});
     }
 }
 

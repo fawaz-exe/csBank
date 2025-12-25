@@ -18,11 +18,6 @@ const customerSchema = mongoose.Schema({
     type: String,
   },
 
-  phone: {
-    type: String,
-    required: true,
-    unique: true,
-  },
 
   dateOfBirth: {
     type: Date,
