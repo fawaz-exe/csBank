@@ -14,7 +14,7 @@ export const newPasswordMiddleware = [
                     location : err.location
 
                 }));
-                return res.status(400).json({errors : myerrors})
+                return res.status(400).json({success: false, message : myerrors})
             }
             next();
         }

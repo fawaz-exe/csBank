@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import Customer from "../models/customer.model.js"
+import Account from "../models/account.model.js";
 import token from "../utils/token.utils.js";
 import { generateToken } from "../utils/jwt.utils.js";
 import sendEmail from "../workers/send.email.js";
@@ -23,6 +24,7 @@ const customerProfile = async(req,res) => {
         }
 
         
+        
         if (address) customer.address = address;
         
         await customer.save();
@@ -39,14 +41,38 @@ const getCustomerDetails = async(req,res) => {
     try {
         let customerId = req.params.id;
 
-        const customer = await Customer.findById(customerId);
+        const customer = await Customer.findById(customerId)
+        .populate("userId", "email phone role isActive");
         if(!customer){
              console.log("Customer not found !");
             return res.status(401).json({success: false, message: "Customer not found!"});
         }
 
-        console.log("Customer Details : ", customer);
-        return res.status(200).json({success: true, message: "Customer Details : ", data: customer});
+        const account = await Account.findOne({customerId: customer._id});
+        
+        let accountDetails = null
+        if(account){
+            const {balance, transferLimit, withdrawalLimit, depositLimit, createdAt, updatedAt, ...otherData} = account.toObject()
+            accountDetails = otherData
+        }
+
+        // const response = {customer, accountDetails}
+        const response = {
+            firstName : customer.firstName,
+            lastName : customer.lastName,
+            dateOfBirth: customer.dateOfBirth,
+            address: customer.address,
+            customer_status: customer.status,
+            customer_since: customer.customerSince,
+            email: customer.userId.email,
+            phone: customer.userId.phone,
+            role: customer.userId.role,
+            isActive: customer.userId.isActive,
+            account: accountDetails
+        }
+
+        console.log("Customer Details : ", response);
+        return res.status(200).json({success: true, message: "Customer Details : ", data: response});
     } catch (error) {
         console.log(error);
         res.status(500).json({success: false, error: error.message, data : "Internal server error"})
