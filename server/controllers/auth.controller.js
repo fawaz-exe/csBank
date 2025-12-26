@@ -162,6 +162,16 @@ const loginUser = async(req,res) => {
 
         const jwtToken = generateToken(payload);
         user.jwtToken = jwtToken;
+
+        
+        let clientIp = req.socket.remoteAddress;
+        user.lastLogin = new Date();
+        user.loginHistory.push({
+            timestamp: new Date(),
+            ipAddress: clientIp,
+            status: "success"
+        });
+
         await user.save();
 
         // const {verifyToken, verified, passwordToken, passwordTokenVerified, lastLogin, loginHistory, createdAt, updatedAt, ...otherData} = user.toObject()
