@@ -339,7 +339,7 @@ const currentUser = async (req, res) => {
         }
 
         const { password, jwtToken, verifyToken, verified, passwordToken, passwordTokenVerified, lastLogin, loginHistory, createdAt, updatedAt, ...userData } = user.toObject()
-        return res.status(200).json({ success: true, message: "Fetched current User Details", data: userData });
+        return res.status(200).json({ success: true, message: "Fetched current User Details", data: user });
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, message: error.message, data: "Internal server error" })
