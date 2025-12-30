@@ -338,7 +338,12 @@ const currentUser = async (req, res) => {
             return res.status(401).json({ success: false, message: "User not found!" });
         }
 
-        const { password, jwtToken, verifyToken, verified, passwordToken, passwordTokenVerified, lastLogin, loginHistory, createdAt, updatedAt, ...userData } = user.toObject()
+        const customer = await Customer.findOne({ userId: user._id });
+
+        user.customer = customer;
+
+        // const { password, jwtToken, verifyToken, verified, passwordToken, passwordTokenVerified, lastLogin, loginHistory, createdAt, updatedAt, ...userData } = user.toObject()
+
         return res.status(200).json({ success: true, message: "Fetched current User Details", data: user });
     } catch (error) {
         console.log(error);
