@@ -8,7 +8,6 @@ import accountRouter from './routes/account.route.js'
 import transactionRouter from './routes/transaction.route.js'
 
 import dotenv from 'dotenv'
-import transactionRouter from './routes/transaction.route.js'
 
 dotenv.config()
 const PORT = process.env.PORT || 6030
