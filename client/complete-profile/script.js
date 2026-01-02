@@ -13,7 +13,7 @@ async function getUserDetails() {
         },
     });
 
-    const result = await response.data.data;
+    const result = await response.data.data.user;
     console.log('User Details:');
     console.log(result);
     return result;
@@ -24,7 +24,6 @@ getUserDetails().then(user => {
     document.querySelector('input[name="email"]').value = user.email;
     document.querySelector('input[name="phone"]').value = user.phone;
 });
-
 
 FORM.addEventListener("submit", async (e) => {
     e.preventDefault();
