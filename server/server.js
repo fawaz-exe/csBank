@@ -21,7 +21,6 @@ server.use(express.json())
 server.use('/api/auth', authRouter);
 server.use('/api/customers', customerRouter);
 server.use('/api/accounts', accountRouter);
-server.use('/api/accounts', accountRouter)
 server.use('/api/transactions', transactionRouter)
 
 
