@@ -340,11 +340,12 @@ const currentUser = async (req, res) => {
 
         const customer = await Customer.findOne({ userId: user._id });
 
-        user.customer = customer;
+        const data = { user, customer };
+        console.log(user)
 
         // const { password, jwtToken, verifyToken, verified, passwordToken, passwordTokenVerified, lastLogin, loginHistory, createdAt, updatedAt, ...userData } = user.toObject()
 
-        return res.status(200).json({ success: true, message: "Fetched current User Details", data: user });
+        return res.status(200).json({ success: true, message: "Fetched current User Details", data });
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, message: error.message, data: "Internal server error" })

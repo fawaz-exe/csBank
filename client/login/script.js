@@ -61,7 +61,7 @@ async function loginSuccess() {
         },
     });
 
-    const result = await response.data.data;
+    const result = await response.data.data.user;
     console.log('User Details:');
     console.log(result);
     if (result.profileCompleted) {
