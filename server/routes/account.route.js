@@ -3,7 +3,7 @@ import {getAccountById, getAccountsByCustomer, createAccount} from "../controlle
 
 const accountRouter = express.Router()
 
-accountRouter.post('/createAccount', createAccount)
+accountRouter.post('/create-account', createAccount)
 accountRouter.get('/account/:id', getAccountById)
 accountRouter.get('/account/customer/:customerId', getAccountsByCustomer)
 

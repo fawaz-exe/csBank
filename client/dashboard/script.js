@@ -25,7 +25,8 @@ const dashboardData = {
             description: "UPI Transfer"
         }
     ]
-};
+}
+
 
 function setData(id, value) {
     const el = document.getElementById(id);
