@@ -4,7 +4,7 @@ import Account from "../models/account.model.js"
 const transferMoney = async(req, res)=>{
     try {
         const {userId} = req.User
-        const { fromAccount, toAccount, amount, reason } = req.body;
+        const { fromAccount, toAccount, amount, description } = req.body;
 
         if (!fromAccount || !toAccount || !amount) {
       return res.status(400).json({
@@ -66,14 +66,14 @@ const transferMoney = async(req, res)=>{
     source.transactions.push({
       type: "DEBIT",
       amount,
-      reason,
+      description,
       relatedAccount: toAccount,
     });
 
     destination.transactions.push({
       type: "CREDIT",
       amount,
-      reason,
+      description,
       relatedAccount: fromAccount,
     });
 
@@ -106,7 +106,7 @@ const withdrawMoney = async (req, res) => {
     
     const user = req.user;
 
-    const { accountNumber, amount, reason } = req.body;
+    const { accountNumber, amount, description } = req.body;
 
    
     if (!accountNumber || !amount) {
@@ -151,7 +151,7 @@ const withdrawMoney = async (req, res) => {
     account.transactions.push({
       type: "DEBIT",
       amount,
-      reason,
+      description,
       relatedAccount: null, 
     });
 
@@ -182,7 +182,7 @@ const depositMoney = async (req, res) => {
   try {
     const user = req.user;
 
-    const { accountNumber, amount, reason } = req.body;
+    const { accountNumber, amount, description } = req.body;
 
     if (!accountNumber || !amount) {
       return res.status(400).json({
@@ -216,7 +216,7 @@ const depositMoney = async (req, res) => {
     account.transactions.push({
       type: "CREDIT",
       amount,
-      reason,
+      description,
       relatedAccount: null, 
     });
 
@@ -244,13 +244,11 @@ const depositMoney = async (req, res) => {
 
 const getAccountTransactions = async (req, res) => {
   try {
-    // 0. Logged-in user
     const user = req.user;
 
-    // 1. Read accountId from params
     const { accountId } = req.params;
 
-    // 2. Find account + ownership check
+
     const account = await Account.findOne({
       _id: accountId,
       userId: user._id,
@@ -264,11 +262,9 @@ const getAccountTransactions = async (req, res) => {
       });
     }
 
-    // 3. Get transactions (latest first)
     const transactions = account.transactions
       .sort((a, b) => b.createdAt - a.createdAt);
 
-    // 4. Response
     return res.status(200).json({
       success: true,
       message: "Transactions fetched successfully",
@@ -290,4 +286,4 @@ const getAccountTransactions = async (req, res) => {
 
 
 
-export default { transferMoney, withdrawMoney, depositMoney };
+export { transferMoney, withdrawMoney, depositMoney, getAccountTransactions };

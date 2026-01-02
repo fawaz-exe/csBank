@@ -40,18 +40,50 @@ const accountSchema = mongoose.Schema(
       type: Number,
       default: 100000,
     },
+
     //Once the account is activated, it changes from pending to active
     status: {
       type: String,
       enum: ["pending", "active", "suspended", "closed"],
       default: "pending",
     },
+
+    transactionHistory: [
+      {
+        type: {
+          type: String,
+          enum: ["DEBIT", "CREDIT"],
+          required: true,
+        },
+
+        amount: {
+          type: Number,
+          required: true,
+        },
+
+        discription: {
+          type: String,
+        },
+
+        accountDetails: {
+          type: String,
+        },
+
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
     createdAt: {
       type: Date,
     },
+
     updatedAt: {
       type: Date,
     },
+
     isPrimary: {
       type: Boolean,
       default: false,

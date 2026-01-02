@@ -95,6 +95,8 @@ const customerSchema = mongoose.Schema({
       },
     },
   ],
+ 
+
   createdAt: {
     type: Date
   },

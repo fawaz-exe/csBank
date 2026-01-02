@@ -52,7 +52,7 @@ const getCustomerDetails = async (req, res) => {
 
         let accountDetails = null
         if (account) {
-            const { balance, transferLimit, withdrawalLimit, depositLimit, createdAt, updatedAt, ...otherData } = account.toObject()
+            const { transferLimit, withdrawalLimit, depositLimit, createdAt, updatedAt, ...otherData } = account.toObject()
             accountDetails = otherData
         }
 
