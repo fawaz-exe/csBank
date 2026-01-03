@@ -46,6 +46,30 @@ const accountSchema = mongoose.Schema(
       enum: ["pending", "active", "suspended", "closed"],
       default: "pending",
     },
+
+        transactionHistory: [
+      {
+        type: {
+          type: String,
+          enum: ["debit", "credit"],
+          required: true,
+        },
+
+        discription: {
+          type: String,
+        },
+        accountDetails: {
+          type: String,
+        },
+
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
+    
     createdAt: {
       type: Date,
     },
