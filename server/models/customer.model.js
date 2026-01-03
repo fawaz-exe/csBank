@@ -68,6 +68,7 @@ const customerSchema = mongoose.Schema({
       },
     },
   ],
+  
   //This is will be added once the customer makes an account and then applies for debit card
   debitCard: [
     {

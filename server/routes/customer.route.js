@@ -6,8 +6,8 @@ import { completeProfileMiddleware } from '../middlewares/register.middleware.js
 
 const customerRouter = express.Router();
 
-customerRouter.post('/profile',authMiddleware, customerProfile)
-customerRouter.get('/:id',authMiddleware, getCustomerDetails)
+customerRouter.post('/profile', authMiddleware, customerProfile)
+customerRouter.get('/:id', authMiddleware, getCustomerDetails)
 customerRouter.put('/update', authMiddleware, updateCustomerDetails);
 customerRouter.post('/complete-profile', authMiddleware, completeProfileMiddleware, completeProfile);
 
