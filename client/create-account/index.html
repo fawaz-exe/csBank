@@ -12,14 +12,14 @@
 <body class="text-black">
     
     <header class="bg-dark text-white py-3 text-center">
-        <h2 class="my-3">CS-Bank Account Registration</h2>
+        <h2 class="my-3">CS-Bank Account Creation</h2>
     </header>
     <div class="container my-4">
 
         <form class="row g-2" id="register-form" class="register-form">
 
             <!-- Personal Details -->
-            <!-- <h5 class="mt-4">Personal Details (as per ID)</h5>
+            <h5 class="mt-4">Personal Details (as per ID)</h5>
 
             <div class="col-md-3">
                 <label class="form-label">First Name</label>
@@ -33,8 +33,8 @@
             <div class="col-md-3">
                 <label class="form-label">Date of Birth</label>
                 <input type="text" class="form-control" placeholder="dd-mm-yyyy" required>
-                <input type="date" class="form-control" required name="dob">
-            </div> -->
+                <!-- <input type="date" class="form-control" required name="dob"> -->
+            </div>
 
             <!-- <div class="col-md-3">
                 <label class="form-label">Gender</label>
@@ -50,42 +50,8 @@
                 <input type="text" class="form-control" value="Indian" required>
             </div> -->
 
-            <!-- Contact Details -->
-            <h5 class="mt-4">Contact Details</h5>
-
-            <div class="col-md-3">
-                <label class="form-label">Email Address</label>
-                <input type="email" class="form-control" required placeholder="example@domain.com" name="email">
-            </div>
-
-            <div class="col-md-3">
-                <label class="form-label">Mobile Number</label>
-                <input type="tel" class="form-control" placeholder="+91 8080808080" required name="mobile">
-            </div>
-
-            <!-- <h5 class="mt-4">Address</h5>
-            <div class="col-md-6">
-                <label class="form-label">Street</label>
-                <input type="text" class="form-control" required name="street">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label">City</label>
-                <input type="text" class="form-control" required name="city">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label">State</label>
-                <input type="text" class="form-control" required name="state">
-            </div>
-
-            <div class="col-md-2">
-                <label class="form-label">Pincode</label>
-                <input type="number" class="form-control" required name="pincode">
-            </div> -->
-
             <!-- Account Details -->
-            <!-- <h5 class="mt-4">Account Details</h5>
+            <h5 class="mt-4">Account Details</h5>
 
             <div class="col-md-4">
                 <label class="form-label">Account Type</label>
@@ -96,25 +62,59 @@
                 </select>
             </div>
 
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <label class="form-label">Branch</label>
                 <input type="text" class="form-control" required>
-            </div>
+            </div> -->
 
             <div class="col-md-4">
                 <label class="form-label">Initial Deposit Amount</label>
-                <input type="number" class="form-control" min="5000" required>
-            </div> -->
+                <input type="number" class="form-control" min="1000" required>
+            </div>
+
+            <!-- Contact Details -->
+            <h5 class="mt-4">Contact Details</h5>
+
+            <div class="col-md-3">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" required placeholder="xyz@mail.com" name="email" disabled>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Mobile Number</label>
+                <input type="tel" class="form-control" placeholder="+91 8080808080" required name="mobile" value="--------" disabled>
+            </div>
+
+            <h5 class="mt-4">Address</h5>
+            <div class="col-md-6 d-block">
+                <label class="form-label">Street</label>
+                <input type="text" class="form-control" required name="street">
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">City</label>
+                <input type="text" class="form-control" required name="city">
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">State</label>
+                <input type="text" class="form-control" required name="state">
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label">Pincode</label>
+                <input type="number" class="form-control" required name="pincode">
+            </div>
 
             <!-- Login Details -->
-            <h5 class="mt-4">Login Credentials</h5>
+            <!-- <h5 class="mt-4">Login Credentials</h5> -->
 
             <!-- <div class="col-md-4">
                 <label class="form-label">Username</label>
                 <input type="text" class="form-control" required>
             </div> -->
 
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
                 <label class="form-label">Password</label>
                 <input type="password" class="form-control" minlength="4" required name="password">
             </div>
@@ -122,26 +122,26 @@
             <div class="col-md-3">
                 <label class="form-label">Confirm Password</label>
                 <input type="password" class="form-control" minlength="4" required name="confirmPassword">
-            </div>
+            </div> -->
 
             <!-- <div class="col-md-4">
                 <label class="form-label">Security PIN</label>
                 <input type="password" class="form-control" maxlength="6" minlength="4" required>
             </div> -->
 
-            <div class="mb-3 form-check">
+            <!-- <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="exampleCheck1" required name="tnc">
                 <label class="form-check-label" for="exampleCheck1">Click here to accept the <a href="#">Terms and Conditions</a></label>
-            </div>
+            </div> -->
 
             <!-- Submit -->
             <div class="col-12 mt-4">
-                <button type="submit" class="btn btn-primary">Register</button>
+                <button type="submit" class="btn btn-primary">Create Account</button>
             </div>
 
         </form>
 
-        <div class="my-2"><h7>Already have an account? <a href="../login/">login</a></h7></div>
+        <!-- <div class="my-2"><h7>Already have an account? <a href="../login/">login</a></h7></div> -->
     </div>
 
     <script src="script.js"></script>
