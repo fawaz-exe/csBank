@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS-Bank | Debit Card</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <section>
+<div class="card">
+  <div class="face front">
+    <h3 class="debit" id="cardType">Debit Card</h3>
+    <h3 class="bank" id="bankName">Bank Name</h3>
+    <img src="https://img.icons8.com/plasticine/100/000000/sim-card-chip.png" class="chip">
+    <h3 class="number" id="cardNumber">**** **** **** ****</h3>
+    <h5 class="valid">
+      <span>Valid<br>thru</span>
+      <span id="validThru">10/23</span></h5>
+    <h5 class="cardHolder" id="cardHolder">XXXXX XXXXX</h5>
+  </div>
+  <div class="face back">
+    <div class="blackbar"></div>
+    <div class="ccvtext">
+      <h5>Authorized Signature not valid unless signed</h5>
+      <div class="whitebar"></div>
+      <div class="ccv" id="ccv">***</div>
+    </div>
+    <p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed purus mi, rutrum at semper ac, rhoncus in risus. Curabitur dictum quis felis nec tincidunt. Curabitur turpis enim, dapibus vehicula mauris id, sagittis mollis leo. Morbi suscipit diam vel diam maximus facilisis. Morbi bibendum nulla ut laoreet posuere. Donec vitae dolor est. Morbi placerat vehicula ligula, nec iaculis lorem pretium a. Nam feugiat felis velit, ac ornare enim laoreet sed</p>
+  </div>
+</div>
+<div class="controls">
+  <button id="toggleBtn">Show Details</button>
+</div>
+
+
+</section>
+<script src="./script.js"></script>
+
+</body>
+</html>
