@@ -12,7 +12,9 @@ const validateAccountAccess = async (req, res, next) => {
       });
     }
 
-    const account = await Account.findOne({ accountNumber });
+    const account = await Account.findOne({ accountNumber, 
+        "status": "active"
+    });
 
     if (!account) {
       return res.status(404).json({

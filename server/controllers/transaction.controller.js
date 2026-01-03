@@ -4,12 +4,23 @@ import Account from "../models/account.model.js"
 const transferMoney = async(req, res)=>{
     try {
        
-        const {toAccount, amount, description } = req.body;
+        const {toAccount, fromAccount, amount, description } = req.body;
 
+         const source = await Account.findOne({
+      accountNumber: fromAccount,
+      "status": "active"
+    });
 
+    if (!source) {
+      return res.status(403).json({
+        success: false,
+        message: "The accountnumber you entered does not exist or inactive",
+      });
+    }
 
     const destination = await Account.findOne({
       accountNumber: toAccount,
+      "status": "active"
     });
 
     if (!destination) {
@@ -62,7 +73,7 @@ const transferMoney = async(req, res)=>{
 const withdrawMoney = async (req, res) => {
   try {
 
-    const {amount, description } = req.body;
+    const {accountNumber, amount, description } = req.body;
     const account = req.account;
    
     account.balance -= amount;
@@ -73,6 +84,18 @@ const withdrawMoney = async (req, res) => {
       amount,
       description,
     });
+
+    if(amount > 100000){
+        return res.status(400).json({
+      success: false,
+      message: "Deposit Limit exceeded",
+      data: {
+        accountNumber,
+        withdrawnAmount: amount,
+        currentBalance: account.balance,
+      },
+    })
+    }
 
    
     await account.save();
@@ -100,16 +123,30 @@ const withdrawMoney = async (req, res) => {
 const depositMoney = async (req, res) => {
   try {
 
-    const {amount, description } = req.body;
+    const {accountNumber, amount, description } = req.body;
+
     const account = req.account;
 
     account.balance += amount;
 
     account.transactionHistory.push({
+        accountNumber,
       type: "credit",
       amount,
       description,
     });
+
+    if(amount > 100000){
+        return res.status(400).json({
+      success: false,
+      message: "Deposit Limit exceeded",
+      data: {
+        accountNumber,
+        withdrawnAmount: amount,
+        currentBalance: account.balance,
+      },
+    })
+    }
 
     await account.save();
 
@@ -135,8 +172,18 @@ const depositMoney = async (req, res) => {
 
 const getAccountTransactions = async (req, res) => {
   try {
+    const { accountId } = req.params;
 
-    const account = req.account;
+    const account = await Account.findById(accountId);
+
+    if (!account || account.status !== "active") {
+      return res.status(403).json({
+        success: false,
+        message: "Account not accessible",
+      });
+    }
+
+    req.account = account;
 
     const transactionHistory = account.transactionHistory
       .sort((a, b) => b.createdAt - a.createdAt);

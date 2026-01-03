@@ -4,6 +4,7 @@ import token from "../utils/token.utils.js";
 import { generateToken } from "../utils/jwt.utils.js";
 import sendEmail from "../workers/send.email.js";
 import generateSixDigitNumber from "../utils/otp.utils.js";
+import jwt from "jsonwebtoken";
 import sendSMS from "../workers/send.sms.js";
 import bcrypt from "bcrypt"
 

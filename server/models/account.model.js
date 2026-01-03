@@ -52,7 +52,7 @@ const accountSchema = mongoose.Schema(
       {
         type: {
           type: String,
-          enum: ["DEBIT", "CREDIT"],
+          enum: ["debit", "credit"],
           required: true,
         },
 
@@ -64,7 +64,6 @@ const accountSchema = mongoose.Schema(
         discription: {
           type: String,
         },
-
         accountDetails: {
           type: String,
         },
