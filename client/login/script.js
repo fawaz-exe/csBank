@@ -8,7 +8,7 @@ FORM.addEventListener('submit', async (e) => {
     console.log('hello2')
     const formData = new FormData(FORM);
     const data = Object.fromEntries(formData.entries());
-    // console.log(data);
+    console.log(data);
     // console.log(JSON.stringify(data));
 
     try {
