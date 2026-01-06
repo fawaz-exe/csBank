@@ -1,8 +1,8 @@
 const token = localStorage.getItem('token');
-const email = localStorage.getItem('email');
+// const email = localStorage.getItem('email');
 const userId = localStorage.getItem('userId');
 
-if (!token || !email || !userId) {
+if (!token || !userId) {
     window.location.href = './login';
 } else {
     window.location.href = './dashboard';

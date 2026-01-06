@@ -14,7 +14,7 @@ authRouter.get('/verify/phone/:otp', verifyPhone);
 authRouter.post('/login', loginMiddleware, loginUser);
 authRouter.get('/jwt', verifyJwtToken);
 authRouter.post('/logout', authMiddleware, logoutUser);
-authRouter.post('/me', authMiddleware, currentUser);
+authRouter.get('/me', authMiddleware, currentUser);
 
 // password reset routes-----------------------------------------------------------------
 
