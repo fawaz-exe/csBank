@@ -1,10 +1,10 @@
 # csBank
 
 ## 📌 Description :
-CS-Bank is a mock banking web application that demonstrates basic banking features.
+CS-Bank is a banking web application that demonstrates basic banking features.
 Users can register, log in, deposit money, transfer funds, and view a sample debit card interface.
 
-This project was built as part of a Full Stack Web Development training program to practice frontend development, backend logic, and database integration.
+This project was built as part of a Full Stack Web Development, Software Engineering program at "The Hacking School" to practice frontend development, backend logic, and database integration.
 
 
 ## Features :
