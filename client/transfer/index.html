@@ -14,6 +14,9 @@
     <header class="bg-dark text-white py-3 text-center">
         <h2 class="my-3">CS-Bank Money Transfer</h2>
     </header>
+    <div class="response text-center my-2 ">
+        <h3 id="response-message"></h3>
+    </div>
 
         <div class="continer my-5 m-5 p-3">
         <div class="row align-items-center">
@@ -25,30 +28,30 @@
                 <div class="card shadow-lg border-secondary border-1 card-body">
                         <div class="my-3">
                                 <label class="form-label ">From Account</label>
-                                <input type="text" class="form-control border-secondary border-1" id="l_fromAccountNumber" name="l_fromAccountNumber" placeholder="Your Account Number">
+                                <input type="text" class="form-control border-secondary border-1" id="l_fromAccountNumber" name="fromAccount" placeholder="Your Account Number">
                         </div>
                         <div class="my-3">
                                 <label class="form-label ">To Account</label>
-                                <input type="text" class="form-control border-secondary border-1" id="l_toAccountNumber" name="l_ToAccountNumber" placeholder="Recipient Account Number">
+                                <input type="text" class="form-control border-secondary border-1" id="l_toAccountNumber" name="toAccount" placeholder="Recipient Account Number">
                         </div>
                         <div class="my-3">
                                 <label class="form-label">To Account (Confirmation)</label>
-                                <input type="text" class="form-control border-secondary border-1" id="l_confirmAccountNumber" name="l_confirmAccountNumber" placeholder="Re-Enter Recipient Account Number">
+                                <input type="text" class="form-control border-secondary border-1" id="l_confirmAccountNumber" name="confirmToAccount" placeholder="Re-Enter Recipient Account Number">
                         </div>
 
                         <div class="my-3">
                                 <label class="form-label">Name</label>
-                                <input type="text" class="form-control border-secondary border-1" id="l_name" name="l_name" placeholder="Account Holder's Name">
+                                <input type="text" class="form-control border-secondary border-1" id="l_name" name="name" placeholder="Account Holder's Name">
                         </div>
 
                         <div class="my-3">
                                 <label class="form-label">Amount</label>
-                                <input type="text" class="form-control border-secondary border-1" id="l_amount" name="l_amount" placeholder="Enter Amount">
+                                <input type="number" class="form-control border-secondary border-1" id="l_amount" name="amount" placeholder="Enter Amount">
                         </div>
 
 
                         <label class="form-label">Description</label>
-                        <textarea id="l_description" class="form-control border-secondary border-1" name="l_description" placeholder="Write something.." style="height:200px"></textarea>
+                        <textarea id="l_description" class="form-control border-secondary border-1" name="description" placeholder="Write something.." style="height:200px"></textarea>
                 
                         <button id = "review-button" class="btn btn-sm btn-primary m-3">Review Details</button>
             </div>
@@ -63,30 +66,30 @@
                 <div class="card shadow-lg border-secondary border-1 card-body">
                         <div class="my-3">
                                 <label class="form-label ">From Account</label>
-                                <input type="text" class="form-control border-secondary border-1" id="r_fromAccountNumber" name="r_fromAccountNumber" placeholder="Your Account Number">
+                                <input type="text" class="form-control border-secondary border-1" id="r_fromAccountNumber" name="fromAccount" placeholder="Your Account Number">
                         </div>
                         <div class="my-3">
                                 <label class="form-label ">To Account</label>
-                                <input type="text" class="form-control border-secondary border-1" id="r_toAccountNumber" name="r_ToAccountNumber" placeholder="Recipient Account Number">
+                                <input type="text" class="form-control border-secondary border-1" id="r_toAccountNumber" name="toAccount" placeholder="Recipient Account Number">
                         </div>
                         <div class="my-3">
                                 <label class="form-label">To Account (Confirmation)</label>
-                                <input type="text" class="form-control border-secondary border-1" id="r_confirmAccountNumber" name="r_confirmAccountNumber" placeholder="Re-Enter Recipient Account Number">
+                                <input type="text" class="form-control border-secondary border-1" id="r_confirmAccountNumber" name="confirmToAccount" placeholder="Re-Enter Recipient Account Number">
                         </div>
 
                         <div class="my-3">
                                 <label class="form-label">Name</label>
-                                <input type="text" class="form-control border-secondary border-1" id="r_name" name="r_name" placeholder="Account Holder's Name">
+                                <input type="text" class="form-control border-secondary border-1" id="r_name" name="name" placeholder="Account Holder's Name">
                         </div>
 
                         <div class="my-3">
                                 <label class="form-label">Amount</label>
-                                <input type="text" class="form-control border-secondary border-1" id="r_amount" name="r_amount" placeholder="Enter Amount">
+                                <input type="number" class="form-control border-secondary border-1" id="r_amount" name="amount" placeholder="Enter Amount">
                         </div>
 
 
                         <label class="form-label">Description</label>
-                        <textarea id="r_description" class="form-control border-secondary border-1" name="r_description" placeholder="Write something.." style="height:200px"></textarea>
+                        <textarea id="r_description" class="form-control border-secondary border-1" name="description" placeholder="Write something.." style="height:200px"></textarea>
                 
                         <button id = "submit-button" class="btn btn-sm btn-primary m-3">Submit</button>
             </div>
