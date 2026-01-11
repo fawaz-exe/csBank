@@ -45,8 +45,8 @@ FORM.addEventListener('submit', async (e) => {
         }
     } catch (error) {
         console.error('Error during Login:');
-        console.error(error.response.data.message);
-        RESPONSE_MESSAGE.textContent = error.response.data.message;
+        console.error(error.message);
+        RESPONSE_MESSAGE.textContent = error.message;
         RESPONSE_MESSAGE.style.color = 'red';
         // alert('An error occurred. Please try again later.');
     }

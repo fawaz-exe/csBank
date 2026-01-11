@@ -199,4 +199,153 @@ const updateCustomerDetails = async (req, res) => {
     }
 }
 
+export const createCustomerAlert = async (req, res) => {
+    try {
+        const { customerId, type, message } = req.body;
+
+
+        if (!customerId || !type || !message) {
+            return res.status(400).json({
+                success: false,
+                message: "customerId, type and message are required"
+            });
+        }
+
+        if (!["low_balance", "large_transaction", "security"].includes(type)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid alert type"
+            });
+        }
+
+
+        const customer = await Customer.findById(customerId);
+        if (!customer) {
+            return res.status(404).json({
+                success: false,
+                message: "Customer not found"
+            });
+        }
+
+
+        customer.alerts.push({
+            type,
+            message,
+            isRead: false,
+            createdAt: new Date()
+        });
+
+        customer.updatedAt = new Date();
+        await customer.save();
+
+        return res.status(201).json({
+            success: true,
+            message: "Alert created successfully",
+            data: customer.alerts[customer.alerts.length - 1]
+        });
+
+    } catch (error) {
+        console.error("createCustomerAlert error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
+
+export const getCustomerAlerts = async (req, res) => {
+    try {
+        const customerId = req.params.id;
+
+        if (!customerId) {
+            return res.status(400).json({
+                success: false,
+                message: "Customer ID is required"
+            });
+        }
+
+        const customer = await Customer.findById(
+            customerId,
+            { alerts: 1, firstName: 1, lastName: 1 }
+        );
+
+        if (!customer) {
+            return res.status(404).json({
+                success: false,
+                message: "Customer not found"
+            });
+        }
+
+        // Sort alerts
+        const alerts = customer.alerts.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Customer alerts fetched successfully",
+            total: alerts.length,
+            data: alerts
+        });
+
+    } catch (error) {
+        console.error("getCustomerAlerts error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
+
+export const markAlertAsRead = async (req, res) => {
+    try {
+        const alertId = req.params.id;
+
+        if (!alertId) {
+            return res.status(400).json({
+                success: false,
+                message: "Alert ID is required"
+            });
+        }
+
+        const customer = await Customer.findOne({
+            "alerts._id": alertId
+        });
+
+        if (!customer) {
+            return res.status(404).json({
+                success: false,
+                message: "Alert not found"
+            });
+        }
+
+        const alert = customer.alerts.id(alertId);
+        if (!alert) {
+            return res.status(404).json({
+                success: false,
+                message: "Alert not found"
+            });
+        }
+
+        alert.isRead = true;
+        customer.updatedAt = new Date();
+
+        await customer.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Alert marked as read",
+            data: alert
+        });
+
+    } catch (error) {
+        console.error("markAlertAsRead error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
+
 export { customerProfile, getCustomerDetails, updateCustomerDetails, completeProfile };

@@ -1,15 +1,19 @@
 import express from 'express'
 
-import { customerProfile, getCustomerDetails, updateCustomerDetails, completeProfile } from '../controllers/customer.controller.js'
+import { customerProfile, getCustomerDetails, updateCustomerDetails, completeProfile, getCustomerAlerts, markAlertAsRead } from '../controllers/customer.controller.js'
 import authMiddleware from '../middlewares/auth.middleware.js'
 import { completeProfileMiddleware } from '../middlewares/register.middleware.js';
+import ipPolicyMiddleware from '../middlewares/ipPolicy.middleware.js';
 
 const customerRouter = express.Router();
 
-customerRouter.post('/profile', authMiddleware, customerProfile)
-customerRouter.get('/:id', authMiddleware, getCustomerDetails)
-customerRouter.put('/update', authMiddleware, updateCustomerDetails);
-customerRouter.post('/complete-profile', authMiddleware, completeProfileMiddleware, completeProfile);
+// customerRouter.use(authMiddleware, ipPolicyMiddleware);
+customerRouter.post('/profile', customerProfile)
+customerRouter.put('/update', updateCustomerDetails);
+customerRouter.get('/:id/alerts', getCustomerAlerts)
+customerRouter.put('/alerts/read/:id', markAlertAsRead)
+customerRouter.post('/complete-profile', completeProfileMiddleware, completeProfile);
+customerRouter.get('/:id', getCustomerDetails)
 
 customerRouter.use((req,res) => {
     res.status(404).json({error: "Route not found ! ⚠️"});
