@@ -1,46 +1,36 @@
 import mongoose from "mongoose";
 
-const customerSchema = mongoose.Schema({
-//user id is taken from the reference of user from the userSchema     
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    // required: true,
-    unique: true,
-  },
-
-  firstName: {
-    type: String,
-    required: true,
-  },
-
-  lastName: {
-    type: String,
-  },
-
-
-  dateOfBirth: {
-    type: Date,
-    required: true,
-  },
-
-  address: 
-    {
-      street: {
-        type: String,
-      },
-      city: {
-        type: String,
-      },
-      state: {
-        type: String,
-      },
-      pinCode: {
-        type: String,
-      },
+const customerSchema = new mongoose.Schema(
+  {
+    // Reference to User
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      unique: true,
     },
 
-//Status of customer will change from pending to active once the teller approves the customer account
+    firstName: {
+      type: String,
+      required: true,
+    },
+
+    lastName: {
+      type: String,
+    },
+
+    dateOfBirth: {
+      type: Date,
+      required: true,
+    },
+
+    address: {
+      street: String,
+      city: String,
+      state: String,
+      pinCode: String,
+    },
+
+    // Status of customer will change from pending to active once approved
     status: {
       type: String,
       enum: ["pending", "active", "suspended", "closed"],
@@ -51,6 +41,7 @@ const customerSchema = mongoose.Schema({
       type: Date,
     },
 
+    // Customer alerts
     alerts: [
       {
         type: {
@@ -68,10 +59,10 @@ const customerSchema = mongoose.Schema({
         },
       },
     ],
-//This is will be added once the customer makes an account and then applies for debit card
+
+    // Debit card details (added after account approval)
     debitCard: [
       {
-        type: String,
         cardNumber: {
           type: String,
           required: true,
@@ -86,7 +77,8 @@ const customerSchema = mongoose.Schema({
           required: true,
         },
         isActive: {
-          type: Boolean
+          type: Boolean,
+          default: false,
         },
         dailyLimit: {
           type: Number,
@@ -94,15 +86,11 @@ const customerSchema = mongoose.Schema({
         },
       },
     ],
-    createdAt:{
-        type: Date
-    },
-    updatedAt:{
-        type: Date
-    }
   },
-//   { Timestamp: true }//this is giving us createdAt and updatedAt data;
-); 
+  {
+    timestamps: true, // adds createdAt & updatedAt automatically
+  }
+);
 
 const Customer = mongoose.model("Customer", customerSchema);
 export default Customer;
