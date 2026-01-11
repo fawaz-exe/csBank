@@ -1,109 +1,95 @@
 import mongoose from "mongoose";
 
-const customerSchema = mongoose.Schema({
-  //user id is taken from the reference of user from the userSchema     
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    // required: true,
-    unique: true,
-  },
-
-  firstName: {
-    type: String,
-    required: true,
-  },
-
-  lastName: {
-    type: String,
-  },
-
-
-  dateOfBirth: {
-    type: Date,
-    required: true,
-  },
-
-  address:
+const customerSchema = new mongoose.Schema(
   {
-    street: {
-      type: String,
+    // Reference to User
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      unique: true,
     },
-    city: {
-      type: String,
-    },
-    state: {
-      type: String,
-    },
-    pinCode: {
-      type: String,
-    },
-  },
 
-  //Status of customer will change from pending to active once the teller approves the customer account
-  status: {
-    type: String,
-    enum: ["pending", "active", "suspended", "closed"],
-    default: "pending",
-  },
-
-  customerSince: {
-    type: Date,
-  },
-
-  alerts: [
-    {
-      type: {
-        type: String,
-        enum: ["low_balance", "large_transaction", "security"],
-      },
-      message: String,
-      isRead: {
-        type: Boolean,
-        default: false,
-      },
-      createdAt: {
-        type: Date,
-        default: Date.now,
-      },
-    },
-  ],
-  
-  //This is will be added once the customer makes an account and then applies for debit card
-  debitCard: [
-    {
+    firstName: {
       type: String,
-      cardNumber: {
-        type: String,
-        required: true,
-        unique: true,
-      },
-      expiryDate: {
-        type: Date,
-        required: true,
-      },
-      cvv: {
-        type: String,
-        required: true,
-      },
-      isActive: {
-        type: Boolean,
-        default: true
-      },
-      dailyLimit: {
-        type: Number,
-        default: 50000,
-      },
+      required: true,
     },
-  ],
-  createdAt: {
-    type: Date
+
+    lastName: {
+      type: String,
+    },
+
+    dateOfBirth: {
+      type: Date,
+      required: true,
+    },
+
+    address: {
+      street: String,
+      city: String,
+      state: String,
+      pinCode: String,
+    },
+
+    // Status of customer will change from pending to active once approved
+    status: {
+      type: String,
+      enum: ["pending", "active", "suspended", "closed"],
+      default: "pending",
+    },
+
+    customerSince: {
+      type: Date,
+    },
+
+    // Customer alerts
+    alerts: [
+      {
+        type: {
+          type: String,
+          enum: ["low_balance", "large_transaction", "security"],
+        },
+        message: String,
+        isRead: {
+          type: Boolean,
+          default: false,
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
+    // Debit card details (added after account approval)
+    debitCard: [
+      {
+        cardNumber: {
+          type: String,
+          required: true,
+          unique: true,
+        },
+        expiryDate: {
+          type: Date,
+          required: true,
+        },
+        cvv: {
+          type: String,
+          required: true,
+        },
+        isActive: {
+          type: Boolean,
+          default: false,
+        },
+        dailyLimit: {
+          type: Number,
+          default: 50000,
+        },
+      },
+    ],
   },
-  updatedAt: {
-    type: Date
+  {
+    timestamps: true, // adds createdAt & updatedAt automatically
   }
-},
-  // { Timestamp: true } //this is giving us createdAt and updatedAt data;
 );
 
 const Customer = mongoose.model("Customer", customerSchema);
