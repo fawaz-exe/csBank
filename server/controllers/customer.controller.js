@@ -79,6 +79,84 @@ const getCustomerDetails = async(req,res) => {
     }
 }
 
+// Use this when Customer doesn't exist yet (first login)
+const completeProfile = async (req, res) => {
+    try {
+        const userId = req.body._id
+        const { firstName, lastName, dateOfBirth, address } = req.body;
+        
+        // Check if user exists
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+        
+        // Check if already completed
+        if (user.profileCompleted) {
+            return res.status(409).json({
+                success: false,
+                message: "Profile already completed. Use update endpoint instead."
+            });
+        }
+        
+        // Check if customer already exists
+        const existingCustomer = await Customer.findOne({ userId });
+        if (existingCustomer) {
+            return res.status(409).json({ 
+                success: false, 
+                message: "Customer profile already exists" 
+            });
+        }
+        
+        // Validate required fields
+        if (!firstName || !dateOfBirth) {
+            return res.status(400).json({
+                success: false,
+                message: "First name and date of birth are required"
+            });
+        }
+        
+        // CREATE new customer
+        const customer = await Customer.create({
+            userId: userId,
+            firstName,
+            lastName: lastName || "",
+            dateOfBirth,
+            address: {
+                street: address?.street || "",
+                city: address?.city || "",
+                state: address?.state || "",
+                pinCode: address?.pinCode || ""
+            },
+            customerSince: new Date(),
+            createdAt: new Date()
+        });
+        
+        // Mark profile as completed
+        await User.findByIdAndUpdate(userId, { 
+            profileCompleted: true,
+            updatedAt: new Date()
+        });
+        
+        return res.status(201).json({
+            success: true,
+            message: "Profile completed successfully! You can now create your account.",
+            data: customer
+        });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 
+            success: false, 
+            message: error,
+            data: "Internal server error from completeProfileController"
+        });
+    }
+};
+
 
 const updateCustomerDetails = async (req, res) => {
   try {

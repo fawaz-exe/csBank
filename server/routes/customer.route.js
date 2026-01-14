@@ -7,7 +7,8 @@ import ipPolicyMiddleware from '../middlewares/ipPolicy.middleware.js';
 
 const customerRouter = express.Router();
 
-// customerRouter.use(authMiddleware, ipPolicyMiddleware);
+customerRouter.use(authMiddleware);
+// customerRouter.use(ipPolicyMiddleware);
 customerRouter.post('/profile', customerProfile)
 customerRouter.put('/update', updateCustomerDetails);
 customerRouter.get('/:id/alerts', getCustomerAlerts)

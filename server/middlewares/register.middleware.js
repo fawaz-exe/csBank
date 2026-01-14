@@ -23,4 +23,24 @@ export const registerMiddleware = [
     }
 ]
 
+export const completeProfileMiddleware = [
+    body("firstName", "firstName required to complete profile").notEmpty(),
+    body("lastName", "lastName required to complete profile").notEmpty(),
+    body("dateOfBirth", "dateOfBirth required to complete profile").notEmpty(),
+    body("address", "address required to complete profile").notEmpty(),
+
+    (req,res,next)=>{
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            const myerrors = errors.array().map(err => ({
+                msg: err.msg,
+                field: err.path,
+                location: err.location
+            }));
+            return res.status(400).json({success: false, message: myerrors})
+        }
+        next();
+    }
+]
+
 export default registerMiddleware
