@@ -105,26 +105,6 @@ const token = localStorage.getItem("token");
 
 const RESPONSE_MESSAGE = document.getElementById("response-message");
 
-async function getUserDetails(){
-    console.log("getUserDetails");
-    const response = await axios.get("http://localhost:6040/api/auth/me", {
-        headers: {
-            'Content-Type' : 'application/json',
-            'auth-token': token,
-        },
-    });
-
-    const result = await response.data.data;
-    console.log("User Details: ", result);
-    return result;
-}
-
-getUserDetails().then(user => {
-    console.log('Populating form with user details');
-    // Populate form fields with user details
-    document.querySelector('input[name="email"]').value = user.email;
-    document.querySelector('input[name="phone"]').value = user.phone;
-})
 
 rightForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -134,15 +114,11 @@ rightForm.addEventListener("submit", async (e) => {
     const formData = new FormData(rightForm);
     const data = Object.fromEntries(formData.entries());
     console.log("Form Data: ", data);
-    data._id = userId;
-    data.account = {
-        accountNumber: data.accountNumber,
-        amount: data.amount
-    }
+    data.amount = Number(data.amount);
 
     try {
         const response = await axios.post(
-            "#deposit-api-url", data, {
+            "http://localhost:6040/api/transactions/transfer", data, {
                 headers: {
                     'Content-Type': 'application/json',
                     'auth-token': token,
@@ -152,10 +128,10 @@ rightForm.addEventListener("submit", async (e) => {
 
         const result = await response.data;
         if(result.success){
-            console.log("Deposit successfull");
+            console.log("Transfer successfull");
             console.log(result);
 
-            RESPONSE_MESSAGE.textContent = "Deposit successfull"
+            RESPONSE_MESSAGE.textContent = "Transfer successfull"
             RESPONSE_MESSAGE.style.color = "green";
         }
         else {
@@ -169,7 +145,6 @@ rightForm.addEventListener("submit", async (e) => {
         console.error(error);
         RESPONSE_MESSAGE.textContent = error.response.data.message;
         RESPONSE_MESSAGE.style.color = "red";
-        // alert('An error occurred. Please try again later.');
     }
 });
 

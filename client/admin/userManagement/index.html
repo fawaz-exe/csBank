@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="./">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>CS BANK | User Management</title>
+  
+  <!-- CoreUI & Bootstrap Styles -->
+  <link rel="stylesheet" href="../../node_modules/simplebar/dist/simplebar.css">
+  <link href="../css/style.css" rel="stylesheet">
+  <!-- CoreUI Icons -->
+  <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/all.min.css">
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar">
+    <div class="sidebar-header border-bottom">
+      <div class="sidebar-brand fw-bold fs-4">CS BANK</div>
+    </div>
+    <ul class="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" href="index.html">
+          <i class="nav-icon cil-user"></i> Manage Users
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../loginMonitoring/index.html">
+          <i class="nav-icon cil-list"></i> Login Logs
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../ipSecurity/index.html">
+          <i class="nav-icon cil-shield-check"></i> IP Policy
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wrapper d-flex flex-column min-vh-100">
+    <!-- HEADER -->
+    <header class="header header-sticky p-0 mb-4 border-bottom">
+      <div class="container-fluid px-4">
+        <button class="header-toggler" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
+          <i class="cil-menu icon icon-lg"></i>
+        </button>
+        <span class="header-nav fw-bold fs-5 ms-2">Admin Dashboard</span>
+        
+        <ul class="header-nav ms-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link py-0 d-flex align-items-center" data-coreui-toggle="dropdown" href="#" role="button">
+              <div class="me-3 text-end d-none d-md-block">
+                <div class="fw-semibold">System Admin</div>
+                <div class="small text-muted">Administrator</div>
+              </div>
+              <div class="avatar avatar-md"><img class="avatar-img" src="../assets/img/avatars/8.jpg"></div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <div class="body flex-grow-1 px-3">
+      <div class="container-lg">
+        
+        <div class="card shadow-sm mb-4 border-top-primary border-top-3">
+          <div class="card-header bg-white py-3">
+            <h5 class="m-0 fw-bold text-primary"><i class="cil-user-follow"></i> Create New Profile</h5>
+          </div>
+          <div class="card-body">
+            <form id="createUserForm" class="row g-3">
+              <div class="col-md-3">
+                <label class="form-label small fw-bold">EMAIL</label>
+                <input type="email" class="form-control" id="email" placeholder="user@csbank.com" required>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label small fw-bold">PHONE</label>
+                <input type="text" class="form-control" id="phone" placeholder="1234567890" required>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label small fw-bold">PASSWORD</label>
+                <input type="password" class="form-control" id="password" required>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label small fw-bold">ROLE</label>
+                <select class="form-select" id="role" onchange="handleRoleUIChange()">
+                  <option value="customer">Customer</option>
+                  <option value="teller">Teller</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">FIRST NAME</label>
+                <input type="text" class="form-control" id="firstName" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">LAST NAME</label>
+                <input type="text" class="form-control" id="lastName">
+              </div>
+              <div class="col-md-4 d-none" id="empIdContainer">
+                <label class="form-label small fw-bold text-primary">EMPLOYEE ID *</label>
+                <input type="text" class="form-control border-primary" id="employeeId">
+              </div>
+              <div class="col-md-4" id="dobContainer">
+                <label class="form-label small fw-bold text-success">DATE OF BIRTH *</label>
+                <input type="date" class="form-control border-success" id="dateOfBirth">
+              </div>
+
+              <div class="col-12 pt-2">
+                <button type="submit" class="btn btn-primary px-4 fw-bold shadow-sm">CREATE USER</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!--REGISTERED USERS TABLE -->
+        <div class="card shadow-sm border-top-secondary border-top-3">
+          <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h5 class="m-0 fw-bold">System Users</h5>
+            <button onclick="loadUsersIntoTable()" class="btn btn-sm btn-outline-secondary">
+              <i class="cil-reload"></i> Refresh
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th class="ps-4">User Details</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th class="text-end pe-4">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="userTableBody">
+                  <!-- Data will be loaded here by script.js -->
+                  <tr>
+                    <td colspan="4" class="text-center py-4 text-muted">Loading database...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <footer class="footer px-4 border-top">
+      <div>CS BANK Admin Panel</div>
+      <div class="ms-auto">V 1.0.0</div>
+    </footer>
+  </div>
+
+  <!-- CoreUI and Axios -->
+  <script src="../../node_modules/@coreui/coreui/dist/js/coreui.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- Your Logic -->
+  <script src="script.js"></script>
+  
+</body>
+</html>

@@ -1,0 +1,88 @@
+@baseUrl = http://localhost:6050
+@jwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOiI2OTU4Nzc4NmU0YjNjZTM0YWE2ZjhmYjIiLCJlbWFpbCI6ImFybWFAY29kZS5pbiIsInJvbGUiOiJjdXN0b21lciJ9LCJpYXQiOjE3Njc0MDU1ODIsImV4cCI6MTc2NzQwOTE4Mn0.nY3r9M97z1e_YAng40QiypB4LP3EDgrJgSbmm3O0Wxw
+@emailToken = PASTE_EMAIL_TOKEN_HERE
+
+@phoneOtp = PASTE_PHONE_OTP_HERE
+@passwordToken = PASTE_PASSWORD_TOKEN_HERE
+
+### Register 
+User
+POST http://localhost:6050/api/auth/register
+Content-Type: application/json
+{  "email": "arma@code.in",  
+"phone": "8500105786",  
+"password": "Temp@1234"
+}
+
+### Login
+POST http://localhost:6040/api/auth/login
+Content-Type: application/json
+{  
+    "email": "arma@code.in",  
+    "password": "Temp@1234"
+}
+
+###verify jwt
+GET http://localhost:6040/api/auth/jwt
+auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOiI2OTRlNTEwYTI2MTY2Y2I4ZjEwYzA3NzYiLCJlbWFpbCI6ImZhcmhhbmtoYW45NDQxNkBnbWFpbC5jb20iLCJyb2xlIjoiY3VzdG9tZXIifSwiaWF0IjoxNzY3NDQwMDcwLCJleHAiOjE3Njc0NDM2NzB9.68s8SeHZqvI_HvfuyYYvkt5PgxMYgubXnez9CayLjbo
+
+### Get Current User
+POST http://localhost:6050/api/auth/me
+auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOiI2OTU4Nzc4NmU0YjNjZTM0YWE2ZjhmYjIiLCJlbWFpbCI6ImFybWFAY29kZS5pbiIsInJvbGUiOiJjdXN0b21lciJ9LCJpYXQiOjE3Njc0MDYyNjgsImV4cCI6MTc2NzQwOTg2OH0.gQfM37XJ87KapAjvgrVIKLrjcYY6r--y5D68rfJkVes
+
+###complete-profile
+POST http://localhost:6050/api/customers/complete-profile
+auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOiI2OTU4Nzc4NmU0YjNjZTM0YWE2ZjhmYjIiLCJlbWFpbCI6ImFybWFAY29kZS5pbiIsInJvbGUiOiJjdXN0b21lciJ9LCJpYXQiOjE3Njc0MDYyNjgsImV4cCI6MTc2NzQwOTg2OH0gQfM37XJ87KapAjvgrVIKLrjcYY6r--y5D68rfJkVes
+Content-Type: application/json
+{  "_id": "69587786e4b3ce34aa6f8fb2",  
+"firstName": "Arma",  
+"lastName": "Sahar", 
+"dateOfBirth": "2003-05-15",  
+"address": {    
+    "street": "Main Road",  
+      "city": "Hyderabad",  
+        "state": "Telangana",  
+          "pinCode": "500001" 
+           }}
+###create accoun
+POST http://localhost:6040/api/accounts/createAccount
+auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOiI2OTRlNTEwYTI2MTY2Y2I4ZjEwYzA3NzYiLCJlbWFpbCI6ImZhcmhhbmtoYW45NDQxNkBnbWFpbC5jb20iLCJyb2xlIjoiY3VzdG9tZXIifSwiaWF0IjoxNzY3NDQwMDcwLCJleHAiOjE3Njc0NDM2NzB9.68s8SeHZqvI_HvfuyYYvkt5PgxMYgubXnez9CayLjbo
+Content-Type: application/json
+{    "_id": "694e510a26166cb8f10c0776",  
+ "accountType": "savings", 
+   "initialDeposit": 5000}
+
+### deposit
+POST http://localhost:6040/api/transactions/deposit
+auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOiI2OTU4Nzc4NmU0YjNjZTM0YWE2ZjhmYjIiLCJlbWFpbCI6ImFybWFAY29kZS5pbiIsInJvbGUiOiJjdXN0b21lciJ9LCJpYXQiOjE3Njc0NjgzNDYsImV4cCI6MTc2NzQ3MTk0Nn0.-ibgfsH9SeHx9AxiBVyQ8Zlu1UF4i5fVEQHNjfBFtAM
+Content-Type: application/json
+{    "accountNumber": "CS241767407870288", 
+   "amount": 5000, 
+      "description": "test deposit"
+      }
+### Transfer Money
+POST http://localhost:6040/api/transactions/transfer
+
+auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOiI2OTU4Nzc4NmU0YjNjZTM0YWE2ZjhmYjIiLCJlbWFpbCI6ImFybWFAY29kZS5pbiIsInJvbGUiOiJjdXN0b21lciJ9LCJpYXQiOjE3Njc0NjgzNDYsImV4cCI6MTc2NzQ3MTk0Nn0.-ibgfsH9SeHx9AxiBVyQ8Zlu1UF4i5fVEQHNjfBFtAM
+Content-Type: application/json
+{
+  "fromAccount": "CS241767407870288", 
+   "toAccount": "CS241767440158292", 
+    "amount": 500, 
+     "description": "Test payment"
+    }
+    
+###withdraw mney
+POST http://localhost:6040/api/transactions/withdraw
+auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOiI2OTU4Nzc4NmU0YjNjZTM0YWE2ZjhmYjIiLCJlbWFpbCI6ImFybWFAY29kZS5pbiIsInJvbGUiOiJjdXN0b21lciJ9LCJpYXQiOjE3Njc0NjgzNDYsImV4cCI6MTc2NzQ3MTk0Nn0.-ibgfsH9SeHx9AxiBVyQ8Zlu1UF4i5fVEQHNjfBFtAM
+Content-Type: application/json
+{
+  "accountNumber": "CS241767407870288", 
+   "amount": 500,
+     "description": "ATM withdrawal"
+     }
+
+### transaction history
+GET http://localhost:6030/api/transactions/account/695880feb914890772d8bce8
+
+auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOiI2OTU4Nzc4NmU0YjNjZTM0YWE2ZjhmYjIiLCJlbWFpbCI6ImFybWFAY29kZS5pbiIsInJvbGUiOiJjdXN0b21lciJ9LCJpYXQiOjE3Njc0MTI0MDUsImV4cCI6MTc2NzQxNjAwNX0.bCW14DTQ5zb48aSjqa3Fj5z_6cX8C-DkRAN4866CICkContent-Type: application/json
