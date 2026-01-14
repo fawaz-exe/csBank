@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="./">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>CS Bank Admin | IP Security Policies</title>
+  <link rel="stylesheet" href="node_modules/simplebar/dist/simplebar.css">
+  <link href="../css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/all.min.css">
+</head>
+<body>
+
+  <div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar">
+    <div class="sidebar-header border-bottom"><div class="sidebar-brand fw-bold fs-4">CS BANK</div></div>
+    <ul class="sidebar-nav">
+      <li class="nav-item"><a class="nav-link" href="../userManagement/index.html"><i class="nav-icon cil-user"></i> Manage Users</a></li>
+      <li class="nav-item"><a class="nav-link" href="../loginMonitoring/index.html"><i class="nav-icon cil-list"></i> Login Logs</a></li>
+      <li class="nav-item"><a class="nav-link active" href="#"><i class="nav-icon cil-shield-check"></i> IP Policy</a></li>
+    </ul>
+  </div>
+
+  <div class="wrapper d-flex flex-column min-vh-100">
+    <header class="header header-sticky p-0 mb-4 border-bottom">
+      <div class="container-fluid px-4">
+        <button class="header-toggler" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()"><i class="cil-menu icon icon-lg"></i></button>
+        <span class="header-nav fw-bold fs-5 ms-2">IP Security & Access Policy</span>
+      </div>
+    </header>
+
+    <div class="body flex-grow-1 px-3">
+      <div class="container-lg">
+        <div class="card shadow-sm mb-4 border-top-info border-top-3">
+          <div class="card-header bg-white py-3">
+            <h5 class="m-0 fw-bold"><i class="cil-lock-locked"></i> Configure IP Restriction</h5>
+          </div>
+          <div class="card-body">
+            <form id="ipPolicyForm">
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label fw-bold small">IP ADDRESS *</label>
+                  <input type="text" class="form-control" id="ipAddress" placeholder="e.g. 192.168.1.1" required>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label fw-bold small">MAX USERS FROM THIS IP</label>
+                  <input type="number" class="form-control" id="maxUsers" value="5">
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                  <div class="form-check form-switch mb-2">
+                    <input class="form-check-input" type="checkbox" id="isTrusted">
+                    <label class="form-check-label fw-bold" for="isTrusted">Mark as Trusted IP</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-success">ALLOWED ROLES</label>
+                  <div class="border p-2 rounded bg-light">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input allow-role" type="checkbox" value="admin"> <label class="form-check-label">Admin</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input allow-role" type="checkbox" value="teller"> <label class="form-check-label">Teller</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input allow-role" type="checkbox" value="customer" checked> <label class="form-check-label">Customer</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-danger">BLOCKED ROLES</label>
+                  <div class="border p-2 rounded bg-light">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input block-role" type="checkbox" value="admin"> <label class="form-check-label">Admin</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input block-role" type="checkbox" value="teller"> <label class="form-check-label">Teller</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input block-role" type="checkbox" value="customer"> <label class="form-check-label">Customer</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label fw-bold small">DESCRIPTION / NOTES</label>
+                  <textarea class="form-control" id="description" rows="2" placeholder="e.g. Main Branch Office IP"></textarea>
+                </div>
+
+                <div class="col-12 mt-4">
+                  <button type="submit" class="btn btn-info text-white fw-bold px-4">SAVE POLICY</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+          <div class="card-header bg-white py-3 ps-4 pe-4 d-flex justify-content-between align-items-center">
+            <h5 class="m-0 fw-bold text-secondary">Active IP Policies</h5>
+            <button onclick="loadPolicies()" class="btn btn-sm btn-outline-secondary">
+              <i class="cil-reload"></i> Refresh
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light small fw-bold text-uppercase">
+                  <tr>
+                    <th class="ps-4">IP Address</th>
+                    <th>Trusted</th>
+                    <th>Allowed Roles</th>
+                    <th>Max Users</th>
+                    <th class="text-end pe-4">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="policyTableBody">
+                  <!-- Data will be loaded here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="node_modules/@coreui/coreui/dist/js/coreui.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -186,18 +186,29 @@ const depositMoney = async (req, res) => {
 
 const getAccountTransactions = async (req, res) => {
   try {
-    const { accountId } = req.params;
+    const user = req.user;
 
-    const account = await Account.findById(accountId);
+    const customer = await Customer.findOne({ userId: user._id });
 
+     const { accountId } = req.params;
+     console.log('llllllll');
+      console.log({customer, accountId})
+
+    const page = parseInt(req.query.page) || 1
+
+    const account = await Account.findOne({
+      _id: accountId,
+       customerId: customer._id,
+      status: "active"
+    })
+    
     if (!account || account.status !== "active") {
       return res.status(403).json({
         success: false,
         message: "Account not accessible",
       });
     }
-
-    req.account = account;
+    // req.account = account;
 
     const transactionHistory = account.transactionHistory
       .sort((a, b) => b.createdAt - a.createdAt);
