@@ -7,7 +7,7 @@ import { createCustomerAlert } from '../controllers/customer.controller.js';
 
 const tellerRouter = express.Router();
 
-// tellerRouter.use(authMiddleware, tellerOnly);
+tellerRouter.use(authMiddleware, tellerOnly);
 // tellerRouter.use(ipPolicyMiddleware);
 tellerRouter.get('/customers/search', getAllCustomers);
 tellerRouter.post('/customers/:id/lock', lockCustomer);
