@@ -15,7 +15,7 @@ transactionRouter.post("/withdraw", authMiddleware, validateAccountAccess, valid
 
 transactionRouter.post("/transfer", authMiddleware, validateAccountAccess, validateBalance, validateTransferLimit, transferMoney);
 
-transactionRouter.get("/account/:accountNumber", authMiddleware, getAccountTransactions);
+transactionRouter.get("/account/:accountId",authMiddleware, getAccountTransactions);
 
 transactionRouter.use((req, res)=>{
     res.status(404).json({error: "Route not found!"});
