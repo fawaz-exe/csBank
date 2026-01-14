@@ -311,3 +311,37 @@ export const getLoginLogs = async (req, res) => {
         });
     }
 };
+
+
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find(
+            {
+                role: { $in: ["customer", "teller"] }
+            },
+            {
+                password: 0,
+                verifyToken: 0,
+                verified: 0,
+                passwordToken: 0,
+                passwordTokenVerified: 0,
+                jwtToken: 0,
+                loginHistory: 0
+            }
+        ).sort({ createdAt: -1 });
+
+        return res.status(200).json({
+            success: true,
+            message: "Users fetched successfully",
+            total: users.length,
+            data: users
+        });
+
+    } catch (error) {
+        console.error("getAllUsers error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
