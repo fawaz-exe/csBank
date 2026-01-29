@@ -8,7 +8,7 @@ import ipPolicyMiddleware from '../middlewares/ipPolicy.middleware.js';
 const adminRouter = express.Router();
 
 adminRouter.use(authMiddleware, adminOnly);
-// adminRouter.use(ipPolicyMiddleware);
+adminRouter.use(ipPolicyMiddleware);
 adminRouter.delete('/users/:id', deleteUserByAdmin);
 adminRouter.post('/ip-policies', manageIpPolicy);
 adminRouter.post('/users/create', createUserByAdmin);

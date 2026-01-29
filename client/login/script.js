@@ -30,6 +30,7 @@ FORM.addEventListener('submit', async (e) => {
             RESPONSE_MESSAGE.style.color = 'green';
             localStorage.setItem('token', response.data.data.jwtToken);
             localStorage.setItem('userId', response.data.data._id);
+            localStorage.setItem('role', response.data.data.role)
             localStorage.setItem('user', JSON.stringify(response.data.data));
 
             setTimeout(() => {
@@ -54,17 +55,24 @@ FORM.addEventListener('submit', async (e) => {
 
 async function loginSuccess() {
     console.log('loginSuccess')
+
+    const role = localStorage.getItem('role')
+
     const response = await axios.get('http://localhost:6040/api/auth/me', {
         headers: {
             'Content-Type': 'application/json',
             'auth-token': localStorage.getItem('token'),
         },
     });
-
+    
     const result = await response.data.data.user;
     console.log('User Details:');
     console.log(result);
-    if (result.profileCompleted) {
+
+    if(role === 'admin'){
+        window.location.href = '../admin/userManagement/index.html'
+    }
+    else if(result.profileCompleted) {
         window.location.href = '../dashboard/';
     } else {
         window.location.href = '../complete-profile/';
