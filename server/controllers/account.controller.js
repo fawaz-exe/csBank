@@ -35,11 +35,11 @@ const createAccount = async (req, res) => {
     
     const {userId, accountType} = req.body
 
-    if(accountType !== "SAVINGS" || accountType !== "CURRENT"){
+    if(!(accountType == "SAVINGS" || accountType == "CURRENT" || accountType == "savings" || accountType == "current")){
         return res.status(400).json({
             success: false,
             message: "Invalid account type",
-            error: error.data
+            // error: error?.data
         })    
     }
 
@@ -57,7 +57,7 @@ const createAccount = async (req, res) => {
     const account = await Account.create({
         customerId: customer._id,
         accountNumber,
-        accountType,
+        accountType: accountType.toLowerCase(),
         balance: 1000,
     })
 
