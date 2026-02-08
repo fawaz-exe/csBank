@@ -1,5 +1,6 @@
 import Account from "../models/account.model.js";
 import Customer from "../models/customer.model.js";
+import generateThreeDigitNumber from "../utils/cvv.utils.js";
 
 const getAccountById = async (req, res) => {
   try {
@@ -11,7 +12,7 @@ const getAccountById = async (req, res) => {
         return res.status(400).json({
             success: false,
             message: "Account not found",
-            error: error.data
+            // error: error.data
         })
     }
 
@@ -25,7 +26,7 @@ const getAccountById = async (req, res) => {
    return res.status(500).json({
     success: false,
     message: "Internal server error",
-    error: error.data
+    // error: error.data
    })
   }
 };
@@ -48,7 +49,7 @@ const createAccount = async (req, res) => {
         return res.status(403).json({
             success: false,
             message: "Only customers can create accounts",
-            error: error.data
+            // error: error.data
         })
     }
 
@@ -61,6 +62,17 @@ const createAccount = async (req, res) => {
         balance: 1000,
     })
 
+    const CVV = generateThreeDigitNumber();
+
+    const debitCard = {
+        cardNumber : accountNumber,
+        cvv : CVV.toString(),
+        isActive: true
+    }
+
+    customer.debitCard.push(debitCard)
+    await customer.save();
+
     return res.status(201).json({
         success: true,
         message: "Account created successfully",
@@ -71,7 +83,7 @@ const createAccount = async (req, res) => {
     return res.status(500).json({
         success: false,
         message: "internal server error",
-        error: error.data
+        // error: error.data
     })
   }
 };
@@ -88,11 +100,11 @@ const getAccountsByCustomer = async (req, res)=>{
             return res.status(404).json({
                 success: false,
                 message: "No accounts found for this customer",
-                error: error.data
+                // error: error.data
             })
         }
 
-        return req.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Accounts fetched successfully",
             data: accounts
@@ -102,7 +114,7 @@ const getAccountsByCustomer = async (req, res)=>{
         return res.status(500).json({
             success: false,
             message: "Internal server error",
-            error: error.data
+            // error: error.data
         })
     }
 }

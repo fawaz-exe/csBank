@@ -70,7 +70,7 @@ const customerSchema = new mongoose.Schema(
         },
         expiryDate: {
           type: Date,
-          required: true,
+          // required: true,
         },
         cvv: {
           type: String,
