@@ -345,3 +345,33 @@ export const getAllUsers = async (req, res) => {
         });
     }
 };
+
+
+export const getAllIpPolicies = async (req, res) => {
+    try {
+        const admin = await Admin.findOne({ userId: req.user._id });
+
+        if (!admin) {
+            return res.status(404).json({
+                success: false,
+                message: "Admin profile not found"
+            });
+        }
+
+        const policies = admin.ipPolicies || [];
+
+        return res.status(200).json({
+            success: true,
+            message: "IP policies fetched successfully",
+            total: policies.length,
+            data: policies
+        });
+
+    } catch (error) {
+        console.error("getAllIpPolicies error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
