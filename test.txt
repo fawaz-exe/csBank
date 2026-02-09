@@ -4,3 +4,5 @@
 4. Read the docs and test auth controller login User
 5. login user: email and password.
 6. Find the right jest code/ functions that should be wrapped for testing.
+7. __test__/
+            auth.test.js
