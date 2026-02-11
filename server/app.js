@@ -26,27 +26,36 @@ app.use(cors());
 app.use(express.json());
 
 const options = {
-    definition: {
-        openapi: "3.0.0",
-        info:{
-            title: "csBank API",
-            version: "1.0.0",
-            description: "Server APIs for Banking Application"
-        },
-        servers: [
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "csBank API",
+      version: "1.0.0",
+      description: "Server APIs for Banking Application"
+    },
+    servers: [
       {
         url: `http://localhost:${PORT}`,
       },
     ],
-    },
-    apis: ["./routes/*.js"]
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "apiKey",
+          in: "header",
+          name: "auth-token"
+        }
+      }
+    }
+  },
+  apis: ["./routes/*.js"]
 }
 
 const specs = swaggerJSDoc(options);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-app.use("/doc", docRouter);
+// app.use("/doc", docRouter);
 
 
 

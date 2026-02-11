@@ -44,12 +44,12 @@ const { default: app } = await import('../app.js');
 // });
 
 const validUser = {
-    email: "testinggss@gmail.com",
+    email: "farhan@gmail.com",
     password: "Password@123",
     firstName: "Test User",
     lastName: "Khan",
     dateOfBirth: "2000-01-01",
-    phone: "7869880321",
+    phone: "7869889321",
     address: {
         street: " Colony",
         city: "hyd",
