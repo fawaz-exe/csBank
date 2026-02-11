@@ -311,6 +311,226 @@ const docRouter = express.Router()
  *         description: No accounts found for this customer
  *       500:
  *         description: Internal server error
+ * 
+ * /api/accounts/transfer:
+ *   post:
+ *     summary: Transfer Money Between Accounts
+ *     description: Transfers money from one account to another and records transaction history.
+ *     tags:
+ *       - Transactions
+ *     parameters:
+ *       - in: header
+ *         name: auth-token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: JWT authentication token
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           example:
+ *             fromAccount: "CS241770641073064"
+ *             toAccount: "CS241770641047128"
+ *             amount: 520
+ *             description: "Transfer for rent"
+ *     responses:
+ *       200:
+ *         description: Transfer successful
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: true
+ *               message: "Transfer successful"
+ *               data:
+ *                 from: "CS241770641073064"
+ *                 to: "CS241770641047128"
+ *                 amount: 520
+ *       403:
+ *         description: Self transfer or invalid source account
+ *       404:
+ *         description: Destination account not valid
+ *       500:
+ *         description: Internal server error
+ * 
+ * /api/accounts/withdraw:
+ *   post:
+ *     summary: Withdraw Money
+ *     description: Withdraws money from an active account and records a debit transaction.
+ *     tags:
+ *       - Transactions
+ *     parameters:
+ *       - in: header
+ *         name: auth-token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: JWT authentication token
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           example:
+ *             accountNumber: "CS241770641073064"
+ *             amount: 500
+ *             description: "ATM Withdrawal"
+ *     responses:
+ *       200:
+ *         description: Withdrawal successful
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: true
+ *               message: "Withdrawal successful"
+ *               data:
+ *                 accountNumber: "CS241770641073064"
+ *                 withdrawnAmount: 500
+ *                 currentBalance: 4500
+ *       400:
+ *         description: Deposit limit exceeded
+ *       500:
+ *         description: Internal server error
+ * 
+ * 
+ * /api/accounts/deposit:
+ *   post:
+ *     summary: Deposit Money
+ *     description: Deposits money into an active account and records a credit transaction.
+ *     tags:
+ *       - Transactions
+ *     parameters:
+ *       - in: header
+ *         name: auth-token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: JWT authentication token
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           example:
+ *             accountNumber: "CS241770641073064"
+ *             amount: 1000
+ *             description: "Cash Deposit"
+ *     responses:
+ *       200:
+ *         description: Deposit successful
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: true
+ *               message: "Deposit successful"
+ *               data:
+ *                 accountNumber: "CS241770641073064"
+ *                 depositedAmount: 1000
+ *                 currentBalance: 5500
+ *       400:
+ *         description: Deposit limit exceeded
+ *       500:
+ *         description: Internal server error
+ * 
+ * /api/accounts/transactions/{accountId}:
+ *   get:
+ *     summary: Get Account Transactions
+ *     description: Fetch paginated transaction history for an active account.
+ *     tags:
+ *       - Transactions
+ *     parameters:
+ *       - in: header
+ *         name: auth-token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: JWT authentication token
+ *       - in: path
+ *         name: accountId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: MongoDB Account ID
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number (default = 1)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Number of transactions per page (default = 10)
+ *     responses:
+ *       200:
+ *         description: Transactions fetched successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: true
+ *               message: "Transactions fetched successfully"
+ *               data:
+ *                 accountNumber: "CS241770641073064"
+ *                 balance: 5500
+ *                 pagination:
+ *                   totalTransactions: 25
+ *                   totalPages: 3
+ *                   currentPage: 1
+ *                   limit: 10
+ *                   NextPage: true
+ *                   PrevPage: false
+ *                 transactions:
+ *                   - type: "credit"
+ *                     amount: 1000
+ *                     description: "Cash Deposit"
+ *                   - type: "debit"
+ *                     amount: 500
+ *                     description: "ATM Withdrawal"
+ *       403:
+ *         description: Account not accessible
+ *       500:
+ *         description: Internal server error
+ * 
+ * /api/accounts/account/debitCard:
+ *   get:
+ *     summary: Get Debit Card Details
+ *     description: Fetches all debit cards linked to the authenticated customer.
+ *     tags:
+ *       - Debit Card
+ *     parameters:
+ *       - in: header
+ *         name: auth-token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: JWT authentication token
+ *     responses:
+ *       200:
+ *         description: Debit card details fetched successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: true
+ *               debitCards:
+ *                 - cardNumber: "CS241770822383257"
+ *                   cvv: "683"
+ *                   isActive: true
+ *                   dailyLimit: 50000
+ *                   _id: "698c9aef65b0af0a2fb26df1"
+ *                 - cardNumber: "CS241770824640280"
+ *                   cvv: "924"
+ *                   isActive: true
+ *                   dailyLimit: 50000
+ *                   _id: "698ca3c0ef819471f2ca9718"
+ *               Name: "Lenovo Ideapad"
+ *       404:
+ *         description: Customer not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: false
+ *               message: "Customer not found!"
+ *       500:
+ *         description: Internal server error
+ * 
  */
 
 
