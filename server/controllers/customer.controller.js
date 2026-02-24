@@ -68,7 +68,8 @@ const getCustomerDetails = async(req,res) => {
             phone: customer.userId.phone,
             role: customer.userId.role,
             isActive: customer.userId.isActive,
-            account: accountDetails
+            account: accountDetails,
+            debitCard : customer.debitCard
         }
 
         console.log("Customer Details : ", response);

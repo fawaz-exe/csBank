@@ -9,6 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "serve . --listen localhost"
-
+  },
+  "dependencies": {
+    "axios": "^1.13.4"
   }
 }
